@@ -30,7 +30,7 @@ DATABASES = {
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Jakarta'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -70,7 +70,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, 'static_tambahan')
+    os.path.join(PROJECT_DIR, 'static_tambahan'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -124,7 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
@@ -165,24 +165,10 @@ LOGGING = {
 
 
 ## setting heroku
-if 'HEROKU_POSTGRESQL_IVORY_URL' in os.environ:
+if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
-    INSTALLED_APPS = (
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.sites',
-        'django.contrib.messages',
-        'django.contrib.staticfiles',
-        # Uncomment the next line to enable the admin:
-        # 'django.contrib.admin',
-        # Uncomment the next line to enable admin documentation:
-        # 'django.contrib.admindocs',
-
-        #dependencies
-        'bootstrap_toolkit',
-        'south',
+    INSTALLED_APPS =+ (
         'boto',
         'storages',
     )
