@@ -168,7 +168,7 @@ LOGGING = {
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
-    INSTALLED_APPS =+ (
+    INSTALLED_APPS += (
         'boto',
         'storages',
     )
