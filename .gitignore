@@ -1,0 +1,7 @@
+*.log
+*.orig
+*.pot
+*.pyc
+dev.db
+local_settings.py
+static
