@@ -131,6 +131,10 @@ INSTALLED_APPS = (
     #dependencies
     'bootstrap_toolkit',
     'south',
+    'emailusernames',
+
+    #aplikasi
+    'utama',
 
 )
 
@@ -163,6 +167,11 @@ LOGGING = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'emailusernames.backends.EmailAuthBackend',
+    # Uncomment the following to make Django tests pass:
+    # 'django.contrib.auth.backends.ModelBackend',
+)
 
 ## setting heroku
 if 'DATABASE_URL' in os.environ:
