@@ -1,7 +1,9 @@
 # Django settings for aplikasi project.
 
-import os
+import os, socket
 
+
+HOSTNAME = socket.gethostname()
 
 
 DEBUG = True
@@ -120,7 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -183,7 +185,7 @@ if 'DATABASE_URL' in os.environ:
     )
 
 if HOSTNAME == "tunjukjari.com":
-    DEBUG = False
+    DEBUG = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -194,3 +196,8 @@ if HOSTNAME == "tunjukjari.com":
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+try:
+	from local_settings import *
+except ImportError:
+	pass
+
