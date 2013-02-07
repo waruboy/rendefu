@@ -1,8 +1,8 @@
 # Django settings for aplikasi project.
 
-import os
+import os, socket
 
-
+HOSTNAME = socket.gethostname()
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
