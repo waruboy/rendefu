@@ -182,3 +182,15 @@ if 'DATABASE_URL' in os.environ:
         'storages',
     )
 
+if HOSTNAME == "tunjukjari.com":
+    DEBUG = False
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'rendefudb',                      # Or path to database file if using sqlite3.
+            'USER': '',                      # Not used with sqlite3.
+            'PASSWORD': '',                  # Not used with sqlite3.
+            'HOST': 'rendefudb.chibwavy4qbk.ap-southeast-1.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
