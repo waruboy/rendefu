@@ -108,3 +108,7 @@ class PoinKontak(models.Model):
 
 	class Meta:
 		verbose_name_plural = 'poin kontak'
+
+	def __unicode__(self):
+		label = "%s: %s" % (str(self.waktu), self.kolega.nama)
+		return label

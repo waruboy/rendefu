@@ -1,0 +1,8 @@
+doctype 5
+{% load bootstrap_toolkit %}
+html(lang="id")
+	head
+		{% bootstrap_stylesheet_tag %}
+		{% block head_tambahan %} {% endblock %}
+	body
+		{% block body %} {% endblock %} 

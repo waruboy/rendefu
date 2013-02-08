@@ -1,0 +1,21 @@
+{% extends 'dasar.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block body %} 
+h2 {{ kolega.nama }}
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Tambah
+h4 Daftar Kontak
+
+{% for k in kontak %}
+{{ k.waktu }}
+br
+{{ k.kontak }}
+p
+{% endfor %}
+
+{% endblock %}
