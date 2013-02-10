@@ -19,7 +19,24 @@ def link_kolega(kolega):
 
 def organisasi(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
-	return HttpResponse(organisasi.nama)
+	if request.method == "POST":
+		form = KolegaTambahForm(request.POST)
+		if form.is_valid():
+			kontak = form.cleaned_data['kontak']
+			kontak_baru = PoinKontak.objects.create(
+				kontak = kontak, 
+				kolega = kolega,
+				)
+			link = link_kolega(kolega)
+			return redirect(request.path)
+	else:
+		form = KolegaTambahForm()
+	kolega = organisasi.kolega_set.all()[0:9]
+	return render(request, 'organisasi.jade', {
+		'kolega': kolega,
+		'organisasi': organisasi,
+		'form': form,
+		})
 
 def kolega(request, kode_organisasi, kode_kolega):
 	
@@ -43,6 +60,13 @@ def kolega(request, kode_organisasi, kode_kolega):
 		'form': form,
 		})
 
+def kolega_daftar(request, kode_organisasi):
+	organisasi = ambil_organisasi(kode_organisasi)
+	kolega = Kolega.objects.filter(organisasi=organisasi)
+	return render(request, 'kolega_daftar.jade', {
+		'organisasi': organisasi,
+		'kolega': kolega,
+		})
 
 def kolega_tambah(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)

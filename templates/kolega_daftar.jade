@@ -1,0 +1,25 @@
+{% extends 'masuk.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/") Depan
+		span.divider /
+	li Daftar Kolega
+{% endblock %}
+
+{% block body %} 
+.well
+	h2 {{ organisasi.nama }}
+
+.well
+	h3 Daftar Kolega
+
+	{% for k in kolega %}
+
+	a(href= "kolega/"+ k.kode ){{ k.nama }}
+	p
+	{% endfor %}
+
+{% endblock %}

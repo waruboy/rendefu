@@ -3,6 +3,16 @@ doctype 5
 html(lang="id")
 	head
 		{% bootstrap_stylesheet_tag %}
+		link(href= STATIC_URL +"css/dasar.css", rel="stylesheet")
 		{% block head_tambahan %} {% endblock %}
 	body
-		{% block body %} {% endblock %} 
+		{% block navbar %} {% endblock %}
+		.container-fluid
+			.row-fluid
+				.span3
+					{% block kiri %} {% endblock %}
+				.span6
+					{% block breadcrumb %} {% endblock %}
+					{% block body %} {% endblock %}
+				.span3
+					{% block kanan %} {% endblock %}
