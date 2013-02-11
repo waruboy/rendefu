@@ -1,6 +1,10 @@
 from django import forms
 from utama.models import Kolega
 
+class DepanForm(forms.Form):
+	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':"Email"}))
+	password = forms.CharField(widget=forms.PasswordInput(render_value=True, attrs={'placeholder':"Password"}))
+
 class KolegaTambahForm(forms.Form):
 	nama = forms.CharField()
 

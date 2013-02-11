@@ -18,7 +18,7 @@ ul.breadcrumb
 
 	{% for k in kolega %}
 
-	a(href= "kolega/"+ k.kode ){{ k.nama }}
+	a(href= k.kode ){{ k.nama }}
 	p
 	{% endfor %}
 

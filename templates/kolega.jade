@@ -20,7 +20,8 @@ form.form(action="", method="post")
 h4 Daftar Kontak
 
 {% for k in kontak %}
-{{ k.waktu }}
+
+{{ k.waktu }} - {{ k.user }} :
 br
 {{ k.kontak }}
 p
@@ -35,6 +36,10 @@ p
 
 	| Telepon:
 	br
+	p {{ kolega.telepon }}
+	| Email:
+	br
+	p {{ kolega.email }}
 	| Alamat:
 	br
 	p {{ kolega.alamat }}

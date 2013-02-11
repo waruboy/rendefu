@@ -5,7 +5,9 @@
 	.navbar-inner
 		.container-fluid
 			a.brand(href="/") Rendefu
-			.nav-collapse.collapse
-				p.navbar-text.pull-right
-					{{ user }}
+			form.navbar-form.pull-right(method='POST', action='')
+				{% csrf_token %}
+				{{ form.email }}
+				{{ form.password }}
+				input.btn(type="submit") Masuk
 {% endblock %}

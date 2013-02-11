@@ -24,7 +24,12 @@ form.form(action="", method="post")
 
 .well
 	h3 Kontak Minggu Ini
-
+	{% for kontak in kontak_g %}
+	{{ kontak.waktu }} - {{ kontak.user }} :
+	br
+	{{ kontak.kontak }}
+	p
+	{% endfor %}
 {% endblock %}
 
 {% block kanan %}

@@ -1,10 +1,32 @@
+import datetime
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from utama.models import Organisasi, Kolega, PoinKontak
-from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
+from utama.forms import DepanForm, KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 
 def depan(request):
-	return render(request, 'dasar.jade')
+	if request.user.is_authenticated():
+		return redirect('/'+request.user.organisasi_set.all()[0].kode)
+	if request.method == "POST":
+		form = DepanForm(request.POST)
+		if form.is_valid():
+
+			email = form.cleaned_data['email']
+			password = form.cleaned_data['password']
+			user = authenticate(email=email, password=password)
+			if user is not None:
+				if user.is_active:
+					login(request, user)
+					return redirect('/'+user.organisasi_set.all()[0].kode)
+			else:
+				return HttpResponse('User/Pass Salah')
+	else:
+		form = DepanForm()
+
+	return render(request, 'depan.jade',{
+		'form': form,
+		})
 	
 def ambil_organisasi(kode_organisasi):
 	return Organisasi.objects.get(kode = kode_organisasi)
@@ -31,11 +53,17 @@ def organisasi(request, kode_organisasi):
 			return redirect(request.path + "kolega/" +kolega_baru.kode)
 	else:
 		form = KolegaTambahForm()
-	kolega = organisasi.kolega_set.all()[0:9]
+	kolega_g = organisasi.kolega_set.all()
+	kolega_baru = kolega_g.order_by('-ditambahkan')[0:9]
+	hari_ini = datetime.date.today()
+
+	awal_minggu = hari_ini - datetime.timedelta(7)
+	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]) 
 	return render(request, 'organisasi.jade', {
-		'kolega': kolega,
+		'kolega': kolega_baru,
 		'organisasi': organisasi,
 		'form': form,
+		'kontak_g': kontak_g,
 		})
 
 def kolega(request, kode_organisasi, kode_kolega):
@@ -48,6 +76,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 			kontak_baru = PoinKontak.objects.create(
 				kontak = kontak, 
 				kolega = kolega,
+				user = request.user,
 				)
 			link = link_kolega(kolega)
 			return redirect(request.path)

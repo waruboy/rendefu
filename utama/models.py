@@ -107,6 +107,7 @@ class PoinKontak(models.Model):
 	waktu = models.DateTimeField(auto_now_add=True)
 	kontak = models.TextField()
 	kolega = models.ForeignKey(Kolega)
+	user = models.ForeignKey(User, blank=True, null=True)
 
 	class Meta:
 		verbose_name_plural = 'poin kontak'
