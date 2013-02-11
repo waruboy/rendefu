@@ -1,0 +1,26 @@
+{% extends 'masuk.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ kolega.organisasi.kode + "/") Depan
+		span.divider /
+	li 
+		a(href="/"+ kolega.organisasi.kode + "/kolega/" + kolega.kode) {{ kolega.nama }}
+		span.divider /
+	li Ubah data
+
+{% endblock %}
+
+{% block body %} 
+h2 {{ kolega.nama }}
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Ubah kontak
+
+{% endblock %}
+

@@ -85,6 +85,8 @@ class Status(models.Model):
 class Kolega(models.Model):
 	nama = models.CharField(max_length=64)
 	kode = models.SlugField()
+	telepon = models.CharField(max_length=64, blank=True, null=True)
+	email = models.EmailField(blank=True, null=True)
 	alamat = models.TextField(blank=True, null=True)
 	ditambahkan = models.DateField(auto_now_add=True)
 	organisasi = models.ForeignKey(Organisasi)

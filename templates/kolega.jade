@@ -1,5 +1,13 @@
-{% extends 'dasar.jade' %}
+{% extends 'masuk.jade' %}
 {% load bootstrap_toolkit %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/") Depan
+		span.divider /
+	li {{ kolega.nama }}
+{% endblock %}
 
 {% block body %} 
 h2 {{ kolega.nama }}
@@ -8,7 +16,7 @@ form.form(action="", method="post")
 	{% csrf_token %}
 	{{ form|as_bootstrap }}
 	.form-actions
-		button.btn.btn-primary(type="submit") Tambah
+		button.btn.btn-primary(type="submit") Tambah kontak
 h4 Daftar Kontak
 
 {% for k in kontak %}
@@ -17,5 +25,22 @@ br
 {{ k.kontak }}
 p
 {% endfor %}
+
+{% endblock %}
+
+
+{% block kanan %}
+.well
+	h4 Data
+
+	| Telepon:
+	br
+	| Alamat:
+	br
+	p {{ kolega.alamat }}
+
+	a(href="ubah") 
+		| Ubah data
+		i.icon-chevron-right
 
 {% endblock %}

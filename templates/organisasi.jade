@@ -10,17 +10,17 @@ ul.breadcrumb
 {% endblock %}
 
 {% block body %} 
-.well
-	h2 {{ organisasi.nama }}
 
-.well
-	h3 Kolega Baru
+h2 {{ organisasi.nama }}
 
-	form.form(action="", method="post")
-		{% csrf_token %}
-		{{ form|as_bootstrap }}
-		.form-actions
-			button.btn.btn-primary(type="submit") Tambah
+
+h3 Kolega Baru
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Tambah
 
 .well
 	h3 Kontak Minggu Ini
@@ -37,6 +37,8 @@ ul.breadcrumb
 	p
 	{% endfor %}
 
-	a.strong(href= "kolega/") Daftar Kolega >>
+	a.strong(href= "kolega/") 
+		| Daftar Kolega
+		i.icon-chevron-right
 
 {% endblock %}

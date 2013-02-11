@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from utama.models import Organisasi, Kolega, PoinKontak
-from utama.forms import KolegaTambahForm, KontakTambahForm
+from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 
 def depan(request):
 	return render(request, 'dasar.jade')
@@ -15,20 +15,20 @@ def ambil_kolega(kode_organisasi, kode_kolega):
 	return (organisasi, kolega)
 
 def link_kolega(kolega):
-	link = "/%s/kolega/%s/" % (kolega.organisasi.kode, kolega.kode)
+	link = '/%s/kolega/%s/' % (kolega.organisasi.kode, kolega.kode)
+	return link
 
 def organisasi(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	if request.method == "POST":
 		form = KolegaTambahForm(request.POST)
 		if form.is_valid():
-			kontak = form.cleaned_data['kontak']
-			kontak_baru = PoinKontak.objects.create(
-				kontak = kontak, 
-				kolega = kolega,
+			nama = form.cleaned_data['nama']
+			kolega_baru = Kolega.objects.create(
+				nama = nama,
+				organisasi = organisasi, 
 				)
-			link = link_kolega(kolega)
-			return redirect(request.path)
+			return redirect(request.path + "kolega/" +kolega_baru.kode)
 	else:
 		form = KolegaTambahForm()
 	kolega = organisasi.kolega_set.all()[0:9]
@@ -57,6 +57,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 	return render(request, 'kolega.jade', {
 		'kolega': kolega,
 		'kontak': kontak,
+		'organisasi': organisasi,
 		'form': form,
 		})
 
@@ -86,6 +87,20 @@ def kolega_tambah(request, kode_organisasi):
 		'form': form,
 		})
 
+def kolega_ubah(request, kode_organisasi, kode_kolega):
+	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	if request.method == "POST":
+		form = KolegaUbahForm(request.POST, instance=kolega)
+		if form.is_valid():
+			form.save()
+			link = link_kolega(kolega)
+			return redirect(link)
+	else:
+		form = KolegaUbahForm(instance=kolega)
+	return render(request, 'kolega_ubah.jade', {
+		'kolega': kolega,
+		'form': form,
+		})
 
 
 def kontak_tambah(request, kode_organisasi, kode_kolega):
