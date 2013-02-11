@@ -55,7 +55,7 @@ def organisasi(request, kode_organisasi):
 		form = KolegaTambahForm()
 	kolega_g = organisasi.kolega_set.all()
 	kolega_baru = kolega_g.order_by('-ditambahkan')[0:9]
-	hari_ini = datetime.date.today()
+	hari_ini = datetime.date.today() +datetime.timedelta(1)
 
 	awal_minggu = hari_ini - datetime.timedelta(7)
 	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]) 
