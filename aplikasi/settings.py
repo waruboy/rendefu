@@ -8,7 +8,7 @@ HOSTNAME = socket.gethostname()
 
 
 
-
+AUTH_PROFILE_MODULE = 'utama.Profil'
 
 
 DEBUG = True
