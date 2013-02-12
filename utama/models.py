@@ -80,7 +80,7 @@ class Status(models.Model):
 		verbose_name_plural = 'status anggota'
 
 	def __unicode__(self):
-		return self.user.email + u' di ' + self.organisasi.nama
+		return self.user.get_profile().nama + u' di ' + self.organisasi.nama
 
 class Kolega(models.Model):
 	nama = models.CharField(max_length=64)
