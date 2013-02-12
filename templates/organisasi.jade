@@ -5,7 +5,7 @@
 ul.breadcrumb
 	li
 		| Depan
-		span.divider /
+
 
 {% endblock %}
 
@@ -16,9 +16,10 @@ h2 {{ organisasi.nama }}
 
 h3 Kolega Baru
 
-form.form(action="", method="post")
+form.form-vertical(action="", method="post")
 	{% csrf_token %}
-	{{ form|as_bootstrap }}
+
+	{{ form|as_bootstrap:"horizontal" }}
 	button.btn.btn-primary(type="submit") Tambah
 
 .well
@@ -26,7 +27,7 @@ form.form(action="", method="post")
 	{% for kontak in kontak_g %}
 	{{ kontak.kolega }}
 	br
-	{{ kontak.waktu }} - {{ kontak.user }} :
+	{{ kontak.waktu }} - {{ kontak.user.get_profile.nama }} :
 	br
 	{{ kontak.kontak }}
 	p

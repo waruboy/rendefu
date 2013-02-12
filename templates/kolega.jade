@@ -21,7 +21,7 @@ h4 Daftar Kontak
 
 {% for k in kontak %}
 
-{{ k.waktu }} - {{ k.user }} :
+{{ k.waktu }} - {{ k.user.get_profile.nama }} :
 br
 {{ k.kontak }}
 p

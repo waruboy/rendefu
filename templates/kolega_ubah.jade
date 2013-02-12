@@ -1,6 +1,10 @@
 {% extends 'masuk.jade' %}
 {% load bootstrap_toolkit %}
 
+{% block head_tambahan %}
+{{ form.media }}
+{% endblock %}
+
 {% block breadcrumb %}
 ul.breadcrumb
 	li

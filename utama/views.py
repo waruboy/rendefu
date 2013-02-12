@@ -90,7 +90,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 			return redirect(request.path)
 	else:
 		form = KontakTambahForm()
-	kontak = kolega.poinkontak_set.all()[0:9]
+	kontak = kolega.poinkontak_set.all().order_by('-waktu')[0:9]
 	return render(request, 'kolega.jade', {
 		'kolega': kolega,
 		'kontak': kontak,
@@ -101,7 +101,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 @login_required
 def kolega_daftar(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
-	kolega = Kolega.objects.filter(organisasi=organisasi)
+	kolega = Kolega.objects.filter(organisasi=organisasi).order_by('nama')
 	return render(request, 'kolega_daftar.jade', {
 		'organisasi': organisasi,
 		'kolega': kolega,

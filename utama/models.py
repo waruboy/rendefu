@@ -90,7 +90,7 @@ class Kolega(models.Model):
 	alamat = models.TextField(blank=True, null=True)
 	ditambahkan = models.DateField(auto_now_add=True)
 	organisasi = models.ForeignKey(Organisasi)
-
+	tanggal_lahir = models.DateField(blank="True", null="True")
 
 	class Meta:
 		verbose_name_plural = 'kolega'
