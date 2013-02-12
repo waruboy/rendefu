@@ -1,5 +1,6 @@
 import datetime
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from utama.models import Organisasi, Kolega, PoinKontak
@@ -40,6 +41,7 @@ def link_kolega(kolega):
 	link = '/%s/kolega/%s/' % (kolega.organisasi.kode, kolega.kode)
 	return link
 
+@login_required
 def organisasi(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	if request.method == "POST":
@@ -58,7 +60,7 @@ def organisasi(request, kode_organisasi):
 	hari_ini = datetime.date.today() +datetime.timedelta(1)
 
 	awal_minggu = hari_ini - datetime.timedelta(7)
-	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]) 
+	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]).order_by("-waktu") 
 	return render(request, 'organisasi.jade', {
 		'kolega': kolega_baru,
 		'organisasi': organisasi,
@@ -66,6 +68,12 @@ def organisasi(request, kode_organisasi):
 		'kontak_g': kontak_g,
 		})
 
+@login_required
+def keluar(request):
+	logout(request)
+	return redirect('/')
+
+@login_required
 def kolega(request, kode_organisasi, kode_kolega):
 	
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
@@ -90,6 +98,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 		'form': form,
 		})
 
+@login_required
 def kolega_daftar(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	kolega = Kolega.objects.filter(organisasi=organisasi)
@@ -116,6 +125,7 @@ def kolega_tambah(request, kode_organisasi):
 		'form': form,
 		})
 
+@login_required
 def kolega_ubah(request, kode_organisasi, kode_kolega):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
 	if request.method == "POST":

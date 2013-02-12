@@ -1,4 +1,6 @@
 {% extends 'dasar.jade' %}
+{% load bootstrap_toolkit %}
+
 
 {% block navbar %}
 .navbar.navbar-inverse.navbar-fixed-top
@@ -6,6 +8,17 @@
 		.container-fluid
 			a.brand(href="/") Rendefu
 			.nav-collapse.collapse
-				p.navbar-text.pull-right
-					{{ user }}
+				.btn-group.pull-right
+					a.btn.dropdown-toggle(data-toggle="dropdown", href="#")
+						| {{ user }}
+						span.caret
+					ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+						li 
+							a(tabindex="-1", href="/sistem/keluar/") keluar
+{% endblock %}
+
+{% block script %}
+script(src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js")
+{% bootstrap_javascript_tag "dropdown" %}
+
 {% endblock %}

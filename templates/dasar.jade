@@ -1,5 +1,6 @@
 doctype 5
 {% load bootstrap_toolkit %}
+
 html(lang="id")
 	head
 		{% bootstrap_stylesheet_tag %}
@@ -16,3 +17,4 @@ html(lang="id")
 					{% block body %} {% endblock %}
 				.span3
 					{% block kanan %} {% endblock %}
+		{% block script %} {% endblock %}
