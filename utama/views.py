@@ -42,7 +42,10 @@ def anggota_tambah(request, kode_organisasi):
 		if form.is_valid():
 			email = form.cleaned_data['email']
 			if User.objects.filter(email=email):
-				return HttpResponse('Email sudah terdaftar')
+				pesan = 'Email sudah terdaftar'
+				return render(request, 'kesalahan.jade', {
+					'pesan': pesan, 
+					})
 			password = 'password'
 			user_baru = create_user(email, password)
 			nama = form.cleaned_data['nama']
