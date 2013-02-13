@@ -8,7 +8,9 @@
 {% block breadcrumb %}
 ul.breadcrumb
 	li
-		a(href="/"+ kolega.organisasi.kode + "/") Depan
+		a(href="/"+ kolega.organisasi.kode + "/")   
+			i.icon-home
+			|  Depan
 		span.divider /
 	li 
 		a(href="/"+ kolega.organisasi.kode + "/kolega/" + kolega.kode) {{ kolega.nama }}

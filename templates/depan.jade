@@ -11,3 +11,28 @@
 				{{ form.password }}
 				input.btn(type="submit") Masuk
 {% endblock %}
+
+{% block body %}
+.hero-unit
+	h1 Rendefu!
+	p Manajemen kontak dan relasi untuk usaha Anda.
+	p
+		a.btn.btn-primary.btn-large Selengkapnya »
+.row
+	.span1
+	.span10
+		h2 Coba Rendefu, gratis!
+		p Gunakan fitur lengkap Rendefu gratis selama 30 hari.
+		.fdaftar
+			form(method='POST', action='/sistem/daftar/'){% csrf_token %}
+				| {{ form_daftar.nama }}
+				br			
+				| {{ form_daftar.organisasi }}
+				br
+				| {{ form_daftar.email }}
+				br
+				| {{ form_daftar.password }} 
+				br
+				input.btn(type='submit', value="Daftar")
+	.span1
+{% endblock %}

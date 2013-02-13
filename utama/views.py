@@ -1,12 +1,43 @@
 import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from utama.models import Organisasi, Kolega, PoinKontak
-from utama.forms import DepanForm, KolegaTambahForm, KontakTambahForm, KolegaUbahForm
+from emailusernames.utils import create_user
+from utama.models import Organisasi, Kolega, PoinKontak, Status
+from utama.forms import DaftarForm, DepanForm, KolegaTambahForm, KontakTambahForm
+from utama.forms import KolegaUbahForm
+
+def daftar(request):
+	if request.method == 'POST':
+		form = DaftarForm(request.POST)
+		if form.is_valid():
+			email = form.cleaned_data['email']
+			password = form.cleaned_data['password']
+			nama = form.cleaned_data['nama']
+			nama_organisasi = form.cleaned_data['organisasi']
+			if User.objects.filter(email=email):
+				return HttpResponse('Email sudah terdaftar')
+			user_baru = create_user(email, password)
+			profil_baru = user_baru.get_profile()
+			profil_baru.nama = nama
+			profil_baru.save()
+			organisasi_baru = Organisasi.objects.create(nama=nama_organisasi)
+			status_baru = Status.objects.create(user=user_baru, organisasi=organisasi_baru)
+			user = authenticate(email=email, password=password)
+			if user:
+				if user.is_active:
+					login(request, user)
+					return redirect('/'+user.organisasi_set.all()[0].kode)
+			else:
+				return HttpResponse('User/Pass Salah')
+			return HttpResponseRedirect('/'+pelanggan.get_profile().get_organisasi().kode)
+	else:
+		return HttpResponseRedirect('/')
 
 def depan(request):
+	form_daftar = DaftarForm()
 	if request.user.is_authenticated():
 		return redirect('/'+request.user.organisasi_set.all()[0].kode)
 	if request.method == "POST":
@@ -16,7 +47,7 @@ def depan(request):
 			email = form.cleaned_data['email']
 			password = form.cleaned_data['password']
 			user = authenticate(email=email, password=password)
-			if user is not None:
+			if user:
 				if user.is_active:
 					login(request, user)
 					return redirect('/'+user.organisasi_set.all()[0].kode)
@@ -27,6 +58,7 @@ def depan(request):
 
 	return render(request, 'depan.jade',{
 		'form': form,
+		'form_daftar': form_daftar,
 		})
 	
 def ambil_organisasi(kode_organisasi):

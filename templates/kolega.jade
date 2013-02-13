@@ -4,7 +4,9 @@
 {% block breadcrumb %}
 ul.breadcrumb
 	li
-		a(href="/"+ organisasi.kode + "/") Depan
+		a(href="/"+ organisasi.kode + "/") 
+			i.icon-home
+			|  Depan
 		span.divider /
 	li {{ kolega.nama }}
 {% endblock %}
@@ -16,8 +18,8 @@ form.form(action="", method="post")
 	{% csrf_token %}
 	{{ form|as_bootstrap }}
 	.form-actions
-		button.btn.btn-primary(type="submit") Tambah kontak
-h4 Daftar Kontak
+		button.btn.btn-primary(type="submit") Tambah catatan
+h4 Daftar Catatan
 
 {% for k in kontak %}
 
