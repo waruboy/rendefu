@@ -1,7 +1,6 @@
 {% extends 'dasar.jade' %}
 {% load bootstrap_toolkit %}
 
-
 {% block navbar %}
 .navbar.navbar-inverse.navbar-fixed-top
 	.navbar-inner
@@ -15,6 +14,16 @@
 					ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
 						li 
 							a(tabindex="-1", href="/sistem/keluar/") keluar
+{% endblock %}
+
+{% block kiri %}
+.well
+	h4 Anggota
+	{% for anggota in organisasi.anggota.all %}
+	p {{ anggota.get_profile.nama }}
+	{% endfor %}
+
+	a(href= "/"+ organisasi.kode + "/tambah_anggota/") Tambah anggota
 {% endblock %}
 
 {% block script %}

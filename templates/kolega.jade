@@ -21,6 +21,11 @@ form.form(action="", method="post")
 		button.btn.btn-primary(type="submit") Tambah catatan
 h4 Daftar Catatan
 
+{% if not kontak %}
+em
+	p Catatan interaksi {{ organisasi.nama }} dengan {{ kolega.nama }} akan muncul di sini.
+{% endif %}
+
 {% for k in kontak %}
 
 {{ k.waktu }} - {{ k.user.get_profile.nama }} :

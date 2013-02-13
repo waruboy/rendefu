@@ -9,6 +9,10 @@ from utama.models import Organisasi, Kolega, PoinKontak, Status
 from utama.forms import DaftarForm, DepanForm, KolegaTambahForm, KontakTambahForm
 from utama.forms import KolegaUbahForm
 
+@login_required
+def anggota_tambah(request):
+	return HttpResponse('Belum diimplementasikan')
+
 def daftar(request):
 	if request.method == 'POST':
 		form = DaftarForm(request.POST)
@@ -92,7 +96,7 @@ def organisasi(request, kode_organisasi):
 	hari_ini = datetime.date.today() +datetime.timedelta(1)
 
 	awal_minggu = hari_ini - datetime.timedelta(7)
-	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]).order_by("-waktu") 
+	kontak_g = PoinKontak.objects.filter(kolega__in=kolega_g).filter(waktu__range=[awal_minggu, hari_ini]).order_by("-waktu")
 	return render(request, 'organisasi.jade', {
 		'kolega': kolega_baru,
 		'organisasi': organisasi,
@@ -171,6 +175,7 @@ def kolega_ubah(request, kode_organisasi, kode_kolega):
 	return render(request, 'kolega_ubah.jade', {
 		'kolega': kolega,
 		'form': form,
+		'organisasi': organisasi,
 		})
 
 

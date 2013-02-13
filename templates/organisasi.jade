@@ -25,6 +25,13 @@ form.form-vertical(action="", method="post")
 
 .well
 	h3 Catatan Minggu Ini
+
+	{% if not kontak_g %}
+	em
+		p Catatan interaksi {{ organisasi.nama }} dengan kolega dalam tujuh hari terakhir akan muncul di sini
+	{% endif %}
+
+
 	{% for kontak in kontak_g %}
 	{{ kontak.kolega }}
 	br
@@ -39,6 +46,11 @@ form.form-vertical(action="", method="post")
 {% block kanan %}
 .well
 	h4 Kolega Terbaru
+
+	{% if not kolega %}
+	em
+		p Kolega yang anda tambahkan akan muncul di sini
+	{% endif %}
 
 	{% for k in kolega %}
 
