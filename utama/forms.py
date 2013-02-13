@@ -1,10 +1,16 @@
 from django import forms
 from utama.models import Kolega
 
-class AnggotaTambahForm(forms.Form):
+class AnggotaForm(forms.Form):
 	nama = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'placeholder':"Nama"}))
 	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':"Email"}))
-	
+
+class AnggotaPasswordForm(forms.Form):
+	password_lama = forms.CharField(widget=forms.PasswordInput(render_value=True, attrs={'placeholder':"Password lama"}))
+	password_baru = forms.CharField(widget=forms.PasswordInput(render_value=True, attrs={'placeholder':"Password baru"}))
+	password_baru_ulang = forms.CharField(widget=forms.PasswordInput(render_value=True, attrs={'placeholder':"Password baru (lagi)"}))
+
+
 class DaftarForm(forms.Form):
     nama = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'placeholder':"Nama"}))
     organisasi = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder':"Organisasi/Perusahaan"}))

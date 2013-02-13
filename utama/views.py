@@ -6,14 +6,39 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from emailusernames.utils import create_user
 from utama.models import Organisasi, Kolega, PoinKontak, Status
-from utama.forms import AnggotaTambahForm, DaftarForm, DepanForm
+from utama.forms import AnggotaForm, DaftarForm, DepanForm
 from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
+
+@login_required
+def anggota_profil(request, kode_organisasi):
+	user = request.user
+	profil = user.get_profile()
+	organisasi = ambil_organisasi(kode_organisasi)
+	if request.method == 'POST':
+		form = AnggotaForm(request.POST)
+		if form.is_valid():
+			email = form.cleaned_data['email']
+			user.email = email
+			user.save()
+			nama = form.cleaned_data['nama']
+			profil.nama = nama
+			profil.save()
+			return redirect('/' + organisasi.kode + '/')
+	else:
+		form = AnggotaForm()
+		form.email = user.email
+	return render (request, 'anggota_profil.jade', {
+		'form': form,
+		'organisasi': organisasi,
+		'profil': profil,
+
+		})
 
 @login_required
 def anggota_tambah(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	if request.method == 'POST':
-		form = AnggotaTambahForm(request.POST)
+		form = AnggotaForm(request.POST)
 		if form.is_valid():
 			email = form.cleaned_data['email']
 			if User.objects.filter(email=email):
@@ -29,11 +54,13 @@ def anggota_tambah(request, kode_organisasi):
 		else:
 			return HttpResponse('salah')
 	else:
-		form = AnggotaTambahForm()
+		form = AnggotaForm()
 	return render(request, 'anggota_tambah.jade',{
 		'organisasi': organisasi,
 		'form': form,
 		})
+
+
 
 def daftar(request):
 	if request.method == 'POST':
