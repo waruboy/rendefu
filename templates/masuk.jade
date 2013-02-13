@@ -23,7 +23,10 @@
 	p {{ anggota.get_profile.nama }}
 	{% endfor %}
 
-	a(href= "/"+ organisasi.kode + "/tambah_anggota/") Tambah anggota
+	a(href= "/"+ organisasi.kode + "/tambah_anggota/") 
+		i.icon-chevron-right
+		| Tambah anggota
+
 {% endblock %}
 
 {% block script %}
