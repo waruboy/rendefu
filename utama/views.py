@@ -13,9 +13,23 @@ from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 def anggota_tambah(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	if request.method == 'POST':
-		pass
+		form = AnggotaTambahForm(request.POST)
+		if form.is_valid():
+			email = form.cleaned_data['email']
+			if User.objects.filter(email=email):
+				return HttpResponse('Email sudah terdaftar')
+			password = 'password'
+			user_baru = create_user(email, password)
+			nama = form.cleaned_data['nama']
+			profil_baru = user_baru.get_profile()
+			profil_baru.nama = nama
+			profil_baru.save()
+			status_baru = Status.objects.create(user=user_baru, organisasi=organisasi)
+			return redirect('/')
+		else:
+			return HttpResponse('salah')
 	else:
-		form = AnggotaTambahForm()		
+		form = AnggotaTambahForm()
 	return render(request, 'anggota_tambah.jade',{
 		'organisasi': organisasi,
 		'form': form,
