@@ -33,7 +33,8 @@ form.form-vertical(action="", method="post")
 
 
 	{% for kontak in kontak_g %}
-	{{ kontak.kolega }}
+	a(href = "/" + organisasi.kode + "/kolega/" + kontak.kolega.kode )
+		{{ kontak.kolega }}
 	br
 	{{ kontak.waktu }} - {{ kontak.user.get_profile.nama }} :
 	br
@@ -56,6 +57,7 @@ form.form-vertical(action="", method="post")
 
 	a(href= "kolega/"+ k.kode ){{ k.nama }}
 	p
+
 	{% endfor %}
 
 	a.strong(href= "kolega/") 

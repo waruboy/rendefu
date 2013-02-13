@@ -6,12 +6,20 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from emailusernames.utils import create_user
 from utama.models import Organisasi, Kolega, PoinKontak, Status
-from utama.forms import DaftarForm, DepanForm, KolegaTambahForm, KontakTambahForm
-from utama.forms import KolegaUbahForm
+from utama.forms import AnggotaTambahForm, DaftarForm, DepanForm
+from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 
 @login_required
-def anggota_tambah(request):
-	return HttpResponse('Belum diimplementasikan')
+def anggota_tambah(request, kode_organisasi):
+	organisasi = ambil_organisasi(kode_organisasi)
+	if request.method == 'POST':
+		pass
+	else:
+		form = AnggotaTambahForm()		
+	return render(request, 'anggota_tambah.jade',{
+		'organisasi': organisasi,
+		'form': form,
+		})
 
 def daftar(request):
 	if request.method == 'POST':

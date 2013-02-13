@@ -1,0 +1,30 @@
+{% extends 'masuk.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block head_tambahan %}
+{{ form.media }}
+{% endblock %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/")   
+			i.icon-home
+			|  Depan
+		span.divider /
+	li 
+		| Tambah Anggota
+
+{% endblock %}
+
+{% block body %} 
+h2 {{ organisasi.nama }}
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Tambah anggota
+
+{% endblock %}
+

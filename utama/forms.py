@@ -1,6 +1,10 @@
 from django import forms
 from utama.models import Kolega
 
+class AnggotaTambahForm(forms.Form):
+	nama = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'placeholder':"Nama"}))
+	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':"Email"}))
+	
 class DaftarForm(forms.Form):
     nama = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'placeholder':"Nama"}))
     organisasi = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder':"Organisasi/Perusahaan"}))
