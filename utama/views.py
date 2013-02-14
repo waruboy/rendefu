@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from emailusernames.utils import create_user
-from utama.models import Organisasi, Kolega, PoinKontak, Status
+from utama.models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
 from utama.forms import AnggotaForm, DaftarForm, DepanForm
 from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 
@@ -165,6 +165,8 @@ def keluar(request):
 def kolega(request, kode_organisasi, kode_kolega):
 	
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	aktivitas_g = Aktivitas.objects.filter(kolega=kolega)
+	aktivitas_hidup_g = aktivitas_g.filter(selesai=False)
 	if request.method == "POST":
 		form = KontakTambahForm(request.POST)
 		if form.is_valid():
@@ -184,6 +186,8 @@ def kolega(request, kode_organisasi, kode_kolega):
 		'kontak': kontak,
 		'organisasi': organisasi,
 		'form': form,
+		'aktivitas_g': aktivitas_g,
+		'aktivitas_hidup_g': aktivitas_hidup_g,
 		})
 
 @login_required

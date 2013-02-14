@@ -103,11 +103,23 @@ class Kolega(models.Model):
 			unique_slugify(self, self.nama, 'kode')
 		super(Kolega, self).save(*args, **kwargs)
 
+class Aktivitas(models.Model):
+	kolega = models.ForeignKey(Kolega)
+	nama = models.CharField(max_length=140)
+	selesai = models.BooleanField(default=False)
+
+	class Meta:
+		verbose_name_plural = 'aktivitas'
+
+	def __unicode__(self):
+		return self.nama
+
 class PoinKontak(models.Model):
 	waktu = models.DateTimeField(auto_now_add=True)
 	kontak = models.TextField()
 	kolega = models.ForeignKey(Kolega)
 	user = models.ForeignKey(User, blank=True, null=True)
+	aktivitas = models.ForeignKey(Aktivitas, blank=True, null=True)
 
 	class Meta:
 		verbose_name_plural = 'poin kontak'
@@ -115,3 +127,5 @@ class PoinKontak(models.Model):
 	def __unicode__(self):
 		label = "%s: %s" % (str(self.waktu), self.kolega.nama)
 		return label
+
+

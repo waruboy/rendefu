@@ -53,7 +53,30 @@ br
 	p {{ kolega.alamat }}
 
 	a(href="ubah") 
-		| Ubah data
 		i.icon-chevron-right
+		| Ubah data
 
+	br
+
+.well
+	h4 Aktivitas
+
+	{% if not aktivitas_g %}
+
+	| Tidak ada aktivitas
+
+	{% else %}
+
+	| {{ aktivitas_g.count }} aktivitas, {{ aktivitas_hidup_g.count }} belum selesai
+
+	{% endif %}
+	br
+	a(href="aktivitas_aktif") 
+		i.icon-chevron-right
+		| Lihat 
+	a(href="aktivitas_tambah") 
+		i.icon-chevron-right
+		| Buat
+	br
+	
 {% endblock %}
