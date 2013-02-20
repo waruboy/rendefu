@@ -1,5 +1,11 @@
 from django import forms
-from utama.models import Kolega
+from .models import Kolega, Aktivitas
+
+class AktivitasTambahForm(forms.ModelForm):
+
+	class Meta:
+		model = Aktivitas
+		fields = ("nama", )
 
 class AnggotaForm(forms.Form):
 	nama = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'placeholder':"Nama"}))
@@ -36,3 +42,5 @@ class KolegaUbahForm(forms.ModelForm):
 	
 class KontakTambahForm(forms.Form):
 	kontak = forms.CharField(widget=forms.Textarea)
+
+

@@ -3,6 +3,8 @@ doctype 5
 
 html(lang="id")
 	head
+		title
+			{% block title %} Rendefu! {% endblock %}
 		{% bootstrap_stylesheet_tag %}
 		link(href= STATIC_URL +"css/dasar.css", rel="stylesheet")
 		{% block head_tambahan %} {% endblock %}

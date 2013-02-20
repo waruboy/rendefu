@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from emailusernames.utils import create_user
-from utama.models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
-from utama.forms import AnggotaForm, DaftarForm, DepanForm
-from utama.forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
+from .models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
+from .forms import AktivitasTambahForm, AnggotaForm, DaftarForm, DepanForm
+from .forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 
 @login_required
 def anggota_profil(request, kode_organisasi):
@@ -130,6 +130,33 @@ def link_kolega(kolega):
 	return link
 
 @login_required
+def aktivitas(request, kode_organisasi, kode_kolega):
+	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	aktivitas_grup = Aktivitas.objects.filter(kolega=kolega)
+	aktivitas_berlangsung_grup = aktivitas_grup.filter(selesai=False)
+	aktivitas_selesai_grup = aktivitas_grup.filter(selesai=True)
+	return render(request, 'aktivitas.jade', {
+		'aktivitas_berlangsung_grup': aktivitas_berlangsung_grup,
+		'aktivitas_selesai_grup': aktivitas_selesai_grup,
+		'kolega': kolega,
+		'organisasi': organisasi,
+		})
+@login_required
+def aktivitas_tambah(request, kode_organisasi, kode_kolega):
+	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	if request.method == "POST":
+		form = AktivitasTambahForm(request.POST)
+		if form.is_valid():
+			nama = form.cleaned_data['nama']
+			aktivitas_baru = Aktivitas.objects.create(
+				nama=nama,
+				kolega=kolega,
+				)
+			return HttpResponse(aktivitas_baru.pk)
+		else:
+			return HttpResponse('gak valid')
+
+@login_required
 def organisasi(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	if request.method == "POST":
@@ -181,11 +208,13 @@ def kolega(request, kode_organisasi, kode_kolega):
 	else:
 		form = KontakTambahForm()
 	kontak = kolega.poinkontak_set.all().order_by('-waktu')[0:9]
+	form_aktivitas = AktivitasTambahForm()
 	return render(request, 'kolega.jade', {
 		'kolega': kolega,
 		'kontak': kontak,
 		'organisasi': organisasi,
 		'form': form,
+		'form_aktivitas': form_aktivitas,
 		'aktivitas_g': aktivitas_g,
 		'aktivitas_hidup_g': aktivitas_hidup_g,
 		})

@@ -105,7 +105,8 @@ class Kolega(models.Model):
 
 class Aktivitas(models.Model):
 	kolega = models.ForeignKey(Kolega)
-	nama = models.CharField(max_length=140)
+	nama = models.CharField("nama aktivitas", max_length=140)
+	dibuat = models.DateField(auto_now_add=True)
 	selesai = models.BooleanField(default=False)
 
 	class Meta:

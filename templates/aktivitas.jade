@@ -1,0 +1,36 @@
+{% extends 'masuk.jade' %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/") 
+			i.icon-home
+			|  Depan
+		span.divider /
+	li 
+		a(href="/"+ organisasi.kode + "/kolega/" + kolega.kode + "/") 
+			{{ kolega.nama }}
+		span.divider /
+	li 
+		| Aktivitas
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+h2 {{ kolega.nama }} : Aktivitas
+
+h4 Aktivitas berlangsung
+{% if not aktivitas_berlangsung_grup %}
+| Tidak ada aktivitas yang sedang berlangsung
+{% endif %}
+br 
+br
+
+h4 Aktivitas selesai
+
+{% if not aktivitas_selesai_grup %}
+| Tidak ada aktivitas yang sudah selesai
+{% endif %}
+
+{% endblock body %}

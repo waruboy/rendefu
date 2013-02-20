@@ -17,6 +17,8 @@ urlpatterns = patterns('utama.views',
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/ubah$', 'kolega_ubah'),
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/(?P<kode_kolega>[a-z0-9_-]+)/$', 'kolega'),
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/(?P<kode_kolega>[a-z0-9_-]+)/ubah$', 'kolega_ubah'),
+    url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/(?P<kode_kolega>[a-z0-9_-]+)/aktivitas/$', 'aktivitas'),
+    url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/(?P<kode_kolega>[a-z0-9_-]+)/aktivitas/tambah$', 'aktivitas_tambah'),
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/kolega/(?P<kode_kolega>[a-z0-9_-]+)/kontak/tambah/$', 'kontak_tambah'),
     # url(r'^aplikasi/', include('aplikasi.foo.urls')),
 
