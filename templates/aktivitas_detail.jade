@@ -1,0 +1,51 @@
+{% extends 'masuk.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/") 
+			i.icon-home
+			|  Depan
+		span.divider /
+	li 
+		a(href="/"+ organisasi.kode + "/kolega/" + kolega.kode + "/") 
+			{{ kolega.nama }}
+		span.divider /
+	li
+		a(href="/"+ organisasi.kode + "/kolega/" + kolega.kode + "/aktivitas/") 
+			| Aktivitas
+		span.divider /
+	li 
+		| {{ aktivitas.nama }}	
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+h2 {{ kolega.nama }} : {{ aktivitas.nama }}
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Tambah catatan
+h4 Daftar Catatan
+
+{% if not kontak_grup %}
+em
+	p Catatan mengenai aktivitas {{ aktivitas.nama }} akan muncul di sini.
+{% endif %}
+
+{% for k in kontak_grup %}
+
+{{ k.waktu }} - {{ k.user.get_profile.nama }} :
+br
+{{ k.kontak }}
+p
+br
+{% endfor %}
+
+
+
+{% endblock body %}

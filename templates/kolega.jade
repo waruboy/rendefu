@@ -29,6 +29,10 @@ em
 {% for k in kontak %}
 
 {{ k.waktu }} - {{ k.user.get_profile.nama }} :
+{% if k.aktivitas %}
+br
+| Aktivitas: {{ k.aktivitas.nama }}
+{% endif %}
 br
 {{ k.kontak }}
 p

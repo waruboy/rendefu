@@ -1,5 +1,5 @@
 from django import forms
-from .models import Kolega, Aktivitas
+from .models import Aktivitas, Kolega, PoinKontak
 
 class AktivitasTambahForm(forms.ModelForm):
 
@@ -40,7 +40,9 @@ class KolegaUbahForm(forms.ModelForm):
 		model = Kolega
 		exclude = ['kode', 'ditambahkan', 'organisasi']
 	
-class KontakTambahForm(forms.Form):
-	kontak = forms.CharField(widget=forms.Textarea)
+class KontakTambahForm(forms.ModelForm):
+	class Meta:
+		model = PoinKontak
+		fields = ('kontak', )
 
 

@@ -117,7 +117,7 @@ class Aktivitas(models.Model):
 
 class PoinKontak(models.Model):
 	waktu = models.DateTimeField(auto_now_add=True)
-	kontak = models.TextField()
+	kontak = models.TextField("Catatan")
 	kolega = models.ForeignKey(Kolega)
 	user = models.ForeignKey(User, blank=True, null=True)
 	aktivitas = models.ForeignKey(Aktivitas, blank=True, null=True)

@@ -142,6 +142,33 @@ def aktivitas(request, kode_organisasi, kode_kolega):
 		'organisasi': organisasi,
 		})
 @login_required
+def aktivitas_detail(request, kode_organisasi, kode_kolega, pk_aktivitas):
+	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	aktivitas = Aktivitas.objects.get(pk=pk_aktivitas)
+	if request.method == "POST":
+		form = KontakTambahForm(request.POST)
+		if form.is_valid():
+			kontak = form.cleaned_data['kontak']
+			kontak_baru = PoinKontak.objects.create(
+				kontak = kontak, 
+				kolega = kolega,
+				user = request.user,
+				aktivitas = aktivitas,
+				)
+			return redirect(request.path)
+	else:
+		form = KontakTambahForm()
+	kontak_grup = PoinKontak.objects.filter(aktivitas = aktivitas)
+	return render(request, 'aktivitas_detail.jade',{
+		'organisasi': organisasi,
+		'kontak_grup': kontak_grup,
+		'kolega': kolega,
+		'form': form,
+		'aktivitas': aktivitas,
+		})
+
+
+@login_required
 def aktivitas_tambah(request, kode_organisasi, kode_kolega):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
 	if request.method == "POST":
@@ -203,7 +230,6 @@ def kolega(request, kode_organisasi, kode_kolega):
 				kolega = kolega,
 				user = request.user,
 				)
-			link = link_kolega(kolega)
 			return redirect(request.path)
 	else:
 		form = KontakTambahForm()
