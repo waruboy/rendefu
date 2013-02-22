@@ -1,6 +1,10 @@
-import re
+import re, datetime
 from django.template.defaultfilters import slugify
+from django.utils.timezone import utc
 
+def sekarang():
+    sekarang = datetime.datetime.utcnow().replace(tzinfo=utc)
+    return sekarang
 
 def unique_slugify(instance, value, slug_field_name='slug', queryset=None,
                    slug_separator='-'):

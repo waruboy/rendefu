@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User 
-from utama.models import Profil, Organisasi, Status, Kolega, PoinKontak
+from .models import Aktivitas, Profil, Organisasi, Status, Kolega, PoinKontak
 
 class ProfilInline(admin.StackedInline):
 	model = Profil
@@ -22,4 +22,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Organisasi, OrganisasiAdmin)
 admin.site.register(Kolega)
 admin.site.register(PoinKontak)
-
+admin.site.register(Aktivitas)

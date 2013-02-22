@@ -108,6 +108,7 @@ class Aktivitas(models.Model):
 	nama = models.CharField("nama aktivitas", max_length=140)
 	dibuat = models.DateField(auto_now_add=True)
 	selesai = models.BooleanField(default=False)
+	tanggal_selesai = models.DateField(blank=True, null=True)
 
 	class Meta:
 		verbose_name_plural = 'aktivitas'

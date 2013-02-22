@@ -71,9 +71,14 @@ br
 
 	{% else %}
 	em
-		| {{ aktivitas_g.count }} aktivitas, {{ aktivitas_hidup_g.count }} belum selesai
+		| {{ aktivitas_g.count }} aktivitas, {{ aktivitas_hidup_g.count }} berlangsung
 	br
-	a(href="aktivitas") 
+	{% for aktivitas in aktivitas_hidup_g %}
+	a(href="aktivitas/" + str(aktivitas.pk) +"/") 
+		| {{ aktivitas.nama }}
+	{% endfor %}
+	br
+	a(href="aktivitas/") 
 		i.icon-chevron-right
 		| Daftar aktivitas
 	{% endif %}

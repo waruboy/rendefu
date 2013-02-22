@@ -46,6 +46,24 @@ p
 br
 {% endfor %}
 
-
-
 {% endblock body %}
+
+{% block kanan %}
+.well
+	h4 Status
+	em 
+		{% if not aktivitas.selesai %}
+		| Belum selesai
+		{% else %}
+		| Selesai 
+		{% endif %}
+	br
+	| {{ kontak_grup.count }} catatan
+	br
+	| Sejak {{ aktivitas.dibuat }}
+	br
+	br
+	form(action="selesai/", method="post")
+		{% csrf_token %}
+		button.btn.btn-primary(type="submit") Tandai selesai
+{% endblock kanan %}

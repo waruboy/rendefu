@@ -8,6 +8,8 @@ from emailusernames.utils import create_user
 from .models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
 from .forms import AktivitasTambahForm, AnggotaForm, DaftarForm, DepanForm
 from .forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
+from .libs import sekarang
+
 
 @login_required
 def anggota_profil(request, kode_organisasi):
@@ -182,6 +184,17 @@ def aktivitas_tambah(request, kode_organisasi, kode_kolega):
 			return HttpResponse(aktivitas_baru.pk)
 		else:
 			return HttpResponse('gak valid')
+
+@login_required
+def aktivitas_selesai(request, kode_organisasi, kode_kolega, pk_aktivitas):
+	if request.method == "POST":
+		aktivitas = Aktivitas.objects.get(pk=pk_aktivitas)
+		aktivitas.selesai = True
+		aktivitas.tanggal_selesai = sekarang()
+		aktivitas.save()
+		return redirect("/"+kode_organisasi+"/kolega/"+kode_kolega+"/aktivitas/"+pk_aktivitas+"/")
+	return HttpResponse('selesaikan aktivitas')
+	
 
 @login_required
 def organisasi(request, kode_organisasi):
