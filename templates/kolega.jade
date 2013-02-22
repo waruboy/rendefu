@@ -85,7 +85,7 @@ br
 	
 	br
 	br
-	form.form(action="aktivitas/tambah", method="post")
+	form.form(action="aktivitas/tambah/", method="post")
 		{% csrf_token %}
 		{{ form_aktivitas|as_bootstrap }}
 		button.btn.btn-primary(type="submit") Buat aktivitas
