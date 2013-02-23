@@ -5,7 +5,9 @@ html(lang="id")
 	head
 		title
 			{% block title %} Rendefu! {% endblock %}
-		{% bootstrap_stylesheet_tag %}
+			
+
+		link(href= "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", rel="stylesheet")
 		link(href= STATIC_URL +"css/dasar.css", rel="stylesheet")
 		{% block head_tambahan %} {% endblock %}
 	body
