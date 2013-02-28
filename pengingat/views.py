@@ -25,12 +25,18 @@ def pengingat_detail(request, kode_organisasi, id_pengingat):
 	else:
 		form = PengingatDetailForm(instance=pengingat_detail)
 	form_pengingat = PengingatTambahForm()
+
+	if pengingat_detail.selesai:
+		tombol_selesai = "Aktfikan kembali"
+	else:
+		tombol_selesai = "Tandai selesai"
 	return render (request, 'pengingat_detail.jade' , {
 		'form': form,
 		'form_pengingat': form_pengingat,
 		'organisasi': organisasi,
 		'pengingat': pengingat_daftar,
 		'pengingat_detail': pengingat_detail,
+		'tombol_selesai': tombol_selesai
 		})
 
 
@@ -51,9 +57,12 @@ def pengingat_tambah(request, kode_organisasi):
 def pengingat_selesai(request, kode_organisasi, id_pengingat):
 	if request.method == "POST":
 		pengingat = Pengingat.objects.get(pk = id_pengingat)
-		pengingat.selesai = True
+		if pengingat.selesai:
+			pengingat.selesai = False
+		else:
+			pengingat.selesai = True
 		pengingat.save()
-	return redirect("/" + kode_organisasi + "/")
+	return redirect("/" + kode_organisasi + "/pengingat/" + id_pengingat)
 
 
 

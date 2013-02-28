@@ -34,4 +34,5 @@ urlpatterns = patterns('utama.views',
 urlpatterns += patterns('pengingat.views',
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/tambah$', 'pengingat_tambah'),
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/(?P<id_pengingat>[0-9]+)/$', 'pengingat_detail'),
+    url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/(?P<id_pengingat>[0-9]+)/selesai/$', 'pengingat_selesai'),
 )

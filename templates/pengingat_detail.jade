@@ -32,10 +32,17 @@ h4 Daftar Catatan
 {% block kanan %}
 .well
 	h4 Status
+	em
+		{% if pengingat_detail.selesai %}
+		| Sudah selesai
+		{% else %}
+		| Belum selesai
+		{% endif %}
+	br
 	| dibuat {{ pengingat_detail.dibuat }}
 	br
 	br
 	form(action="selesai/", method="post")
 		{% csrf_token %}
-		button.btn.btn-primary(type="submit") Tandai selesai
+		button.btn.btn-primary(type="submit") {{ tombol_selesai }}
 {% endblock kanan %}
