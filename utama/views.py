@@ -289,9 +289,15 @@ def kolega(request, kode_organisasi, kode_kolega):
 def kolega_daftar(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
 	kolega = Kolega.objects.filter(organisasi=organisasi).order_by('nama')
+	user = request.user
+	pengingat = ambil_pengingat(organisasi, user)
+	form_pengingat = PengingatTambahForm()
 	return render(request, 'kolega_daftar.jade', {
+		'form_pengingat': form_pengingat,
 		'organisasi': organisasi,
+		'pengingat': pengingat,
 		'kolega': kolega,
+
 		})
 
 def kolega_tambah(request, kode_organisasi):
