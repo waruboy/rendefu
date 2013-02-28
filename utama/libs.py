@@ -2,6 +2,8 @@ import re, datetime
 from django.template.defaultfilters import slugify
 from django.utils.timezone import utc
 
+
+
 def sekarang():
     sekarang = datetime.datetime.utcnow().replace(tzinfo=utc)
     return sekarang

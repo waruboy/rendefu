@@ -29,3 +29,7 @@ urlpatterns = patterns('utama.views',
 
 	
 )
+
+urlpatterns += patterns('pengingat.views',
+    url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/tambah$', 'pengingat_tambah'),
+)

@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from emailusernames.utils import create_user
+
+from pengingat.forms import PengingatTambahForm
+from pengingat.libs import ambil_pengingat
+
 from .models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
 from .forms import AktivitasTambahForm, AnggotaForm, DaftarForm, DepanForm
 from .forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
@@ -16,6 +20,7 @@ def anggota_profil(request, kode_organisasi):
 	user = request.user
 	profil = user.get_profile()
 	organisasi = ambil_organisasi(kode_organisasi)
+	pengingat = ambil_pengingat(organisasi, request.user)
 	if request.method == 'POST':
 		form = AnggotaForm(request.POST)
 		if form.is_valid():
@@ -32,7 +37,9 @@ def anggota_profil(request, kode_organisasi):
 	return render (request, 'anggota_profil.jade', {
 		'form': form,
 		'organisasi': organisasi,
+		'pengingat': pengingat,
 		'profil': profil,
+
 
 		})
 
@@ -133,20 +140,28 @@ def link_kolega(kolega):
 
 @login_required
 def aktivitas(request, kode_organisasi, kode_kolega):
+	form_pengingat = PengingatTambahForm()
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
 	aktivitas_grup = Aktivitas.objects.filter(kolega=kolega)
 	aktivitas_berlangsung_grup = aktivitas_grup.filter(selesai=False)
 	aktivitas_selesai_grup = aktivitas_grup.filter(selesai=True)
+	user = request.user
+	pengingat = ambil_pengingat (organisasi, user)
 	return render(request, 'aktivitas.jade', {
 		'aktivitas_berlangsung_grup': aktivitas_berlangsung_grup,
 		'aktivitas_selesai_grup': aktivitas_selesai_grup,
+		'form_pengingat': form_pengingat,
 		'kolega': kolega,
 		'organisasi': organisasi,
+		'pengingat': pengingat,
+
 		})
 @login_required
 def aktivitas_detail(request, kode_organisasi, kode_kolega, pk_aktivitas):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
 	aktivitas = Aktivitas.objects.get(pk=pk_aktivitas)
+	user = request.user
+	pengingat = ambil_pengingat(organisasi, user)
 	if request.method == "POST":
 		form = KontakTambahForm(request.POST)
 		if form.is_valid():
@@ -161,11 +176,14 @@ def aktivitas_detail(request, kode_organisasi, kode_kolega, pk_aktivitas):
 	else:
 		form = KontakTambahForm()
 	kontak_grup = PoinKontak.objects.filter(aktivitas = aktivitas)
+	form_pengingat = PengingatTambahForm()
 	return render(request, 'aktivitas_detail.jade',{
 		'organisasi': organisasi,
+		'pengingat': pengingat,
 		'kontak_grup': kontak_grup,
 		'kolega': kolega,
 		'form': form,
+		'form_pengingat': form_pengingat,
 		'aktivitas': aktivitas,
 		})
 
@@ -199,6 +217,8 @@ def aktivitas_selesai(request, kode_organisasi, kode_kolega, pk_aktivitas):
 @login_required
 def organisasi(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
+	pengingat = ambil_pengingat(organisasi, request.user)
+	form_pengingat = PengingatTambahForm()
 	if request.method == "POST":
 		form = KolegaTambahForm(request.POST)
 		if form.is_valid():
@@ -220,6 +240,8 @@ def organisasi(request, kode_organisasi):
 		'kolega': kolega_baru,
 		'organisasi': organisasi,
 		'form': form,
+		'form_pengingat': form_pengingat,
+		'pengingat': pengingat,
 		'kontak_g': kontak_g,
 		})
 
@@ -234,6 +256,9 @@ def kolega(request, kode_organisasi, kode_kolega):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
 	aktivitas_g = Aktivitas.objects.filter(kolega=kolega)
 	aktivitas_hidup_g = aktivitas_g.filter(selesai=False)
+	form_pengingat = PengingatTambahForm()
+	user = request.user
+	pengingat = ambil_pengingat(organisasi, user)
 	if request.method == "POST":
 		form = KontakTambahForm(request.POST)
 		if form.is_valid():
@@ -251,9 +276,11 @@ def kolega(request, kode_organisasi, kode_kolega):
 	return render(request, 'kolega.jade', {
 		'kolega': kolega,
 		'kontak': kontak,
+		'pengingat': pengingat,
 		'organisasi': organisasi,
 		'form': form,
 		'form_aktivitas': form_aktivitas,
+		'form_pengingat': form_pengingat,
 		'aktivitas_g': aktivitas_g,
 		'aktivitas_hidup_g': aktivitas_hidup_g,
 		})

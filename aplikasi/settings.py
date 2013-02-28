@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'emailusernames',
 
     #aplikasi
+    'pengingat',
     'utama',
 
 )

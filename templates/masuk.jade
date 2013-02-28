@@ -20,6 +20,18 @@
 
 {% block kiri %}
 .well
+	h4 Pengingat
+	{% for p in pengingat %}
+	a(href="")
+		| {{ p.judul }}
+	br
+	{% endfor %}
+	br
+	form.form(action="/"+organisasi.kode+"/pengingat/tambah", method="post")
+		{% csrf_token %}
+		| {{ form_pengingat|as_bootstrap }} 
+		button.btn.btn-primary(type="submit") Buat pengingat
+.well
 	h4 Anggota
 	{% for anggota in organisasi.anggota.all %}
 	p {{ anggota.get_profile.nama }}
