@@ -1,0 +1,41 @@
+{% extends 'masuk.jade' %}
+{% load bootstrap_toolkit %}
+
+{% block breadcrumb %}
+ul.breadcrumb
+	li
+		a(href="/"+ organisasi.kode + "/") 
+			i.icon-home
+			|  Depan
+		span.divider /
+	li 
+		| Pengingat
+		span.divider /
+	li
+		| {{ pengingat_detail.judul }}
+{% endblock breadcrumb %}
+
+
+{% block body %}
+
+h2 {{ organisasi.nama }} : {{ pengingat_detail.judul }}
+
+form.form(action="", method="post")
+	{% csrf_token %}
+	{{ form|as_bootstrap }}
+	.form-actions
+		button.btn.btn-primary(type="submit") Simpan pengingat
+h4 Daftar Catatan
+
+{% endblock body %}
+
+{% block kanan %}
+.well
+	h4 Status
+	| dibuat {{ pengingat_detail.dibuat }}
+	br
+	br
+	form(action="selesai/", method="post")
+		{% csrf_token %}
+		button.btn.btn-primary(type="submit") Tandai selesai
+{% endblock kanan %}

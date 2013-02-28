@@ -22,7 +22,7 @@
 .well
 	h4 Pengingat
 	{% for p in pengingat %}
-	a(href="")
+	a(href= "/" + organisasi.kode + "/pengingat/" + str(p.pk) + "/")
 		| {{ p.judul }}
 	br
 	{% endfor %}
