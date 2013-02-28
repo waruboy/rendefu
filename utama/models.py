@@ -91,6 +91,7 @@ class Kolega(models.Model):
 	ditambahkan = models.DateField(auto_now_add=True)
 	organisasi = models.ForeignKey(Organisasi)
 	tanggal_lahir = models.DateField(blank="True", null="True")
+	dihapus = models.BooleanField(default=False)
 
 	class Meta:
 		verbose_name_plural = 'kolega'

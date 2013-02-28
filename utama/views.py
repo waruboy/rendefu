@@ -230,7 +230,7 @@ def organisasi(request, kode_organisasi):
 			return redirect(request.path + "kolega/" +kolega_baru.kode)
 	else:
 		form = KolegaTambahForm()
-	kolega_g = organisasi.kolega_set.all()
+	kolega_g = organisasi.kolega_set.filter(dihapus=False)
 	kolega_baru = kolega_g.order_by('-ditambahkan')[0:9]
 	hari_ini = datetime.date.today() +datetime.timedelta(1)
 
@@ -288,7 +288,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 @login_required
 def kolega_daftar(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
-	kolega = Kolega.objects.filter(organisasi=organisasi).order_by('nama')
+	kolega = Kolega.objects.filter(organisasi=organisasi, dihapus=False).order_by('nama')
 	user = request.user
 	pengingat = ambil_pengingat(organisasi, user)
 	form_pengingat = PengingatTambahForm()
@@ -335,6 +335,14 @@ def kolega_ubah(request, kode_organisasi, kode_kolega):
 		'organisasi': organisasi,
 		})
 
+@login_required
+def kolega_hapus(request, kode_organisasi, kode_kolega):
+	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	if request.method == "POST":
+		kolega.dihapus = True
+		kolega.save()
+	link = link_kolega(kolega)
+	return redirect('/'+ kode_organisasi +'/')
 
 def kontak_tambah(request, kode_organisasi, kode_kolega):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)

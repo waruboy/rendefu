@@ -89,4 +89,9 @@ br
 		{% csrf_token %}
 		{{ form_aktivitas|as_bootstrap }}
 		button.btn.btn-primary(type="submit") Buat aktivitas
-{% endblock %}
+.well
+	h4 Hapus data
+	form.form(action="hapus/", method="post")
+		{% csrf_token %}
+		button.btn.btn-warning(type="submit") Hapus kolega
+{% endblock kanan %}
