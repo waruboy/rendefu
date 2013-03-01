@@ -33,11 +33,7 @@ h4 Daftar Catatan
 .well
 	h4 Status
 	em
-		{% if pengingat_detail.selesai %}
-		| Sudah selesai
-		{% else %}
-		| Belum selesai
-		{% endif %}
+		| {{ status_selesai }}
 	br
 	| dibuat {{ pengingat_detail.dibuat }}
 	br

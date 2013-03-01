@@ -28,15 +28,18 @@ def pengingat_detail(request, kode_organisasi, id_pengingat):
 
 	if pengingat_detail.selesai:
 		tombol_selesai = "Aktfikan kembali"
+		status_selesai = "Sudah selasai"
 	else:
 		tombol_selesai = "Tandai selesai"
+		status_selesai = "Belum selesai"
 	return render (request, 'pengingat_detail.jade' , {
 		'form': form,
 		'form_pengingat': form_pengingat,
 		'organisasi': organisasi,
 		'pengingat': pengingat_daftar,
 		'pengingat_detail': pengingat_detail,
-		'tombol_selesai': tombol_selesai
+		'status_selesai': status_selesai,
+		'tombol_selesai': tombol_selesai,
 		})
 
 

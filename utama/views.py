@@ -14,6 +14,24 @@ from .forms import AktivitasTambahForm, AnggotaForm, DaftarForm, DepanForm
 from .forms import KolegaTambahForm, KontakTambahForm, KolegaUbahForm
 from .libs import sekarang
 
+def ambil_organisasi(kode_organisasi):
+	return Organisasi.objects.get(kode = kode_organisasi)
+
+def ambil_kolega(kode_organisasi, kode_kolega):
+	organisasi = ambil_organisasi(kode_organisasi)
+	kolega = Kolega.objects.get(kode = kode_kolega, organisasi = organisasi)
+	return (organisasi, kolega)
+
+def link_kolega(kolega):
+	link = '/%s/kolega/%s/' % (kolega.organisasi.kode, kolega.kode)
+	return link
+
+def inisiasi_halaman(kode_organisasi, request):
+	organisasi = ambil_organisasi(kode_organisasi)
+	pengingat = ambil_pengingat(organisasi, request.user)
+	form_pengingat = PengingatTambahForm()
+	return (organisasi, pengingat, form_pengingat)
+
 
 @login_required
 def anggota_profil(request, kode_organisasi):
@@ -126,17 +144,7 @@ def depan(request):
 		'form_daftar': form_daftar,
 		})
 	
-def ambil_organisasi(kode_organisasi):
-	return Organisasi.objects.get(kode = kode_organisasi)
 
-def ambil_kolega(kode_organisasi, kode_kolega):
-	organisasi = ambil_organisasi(kode_organisasi)
-	kolega = Kolega.objects.get(kode = kode_kolega, organisasi = organisasi)
-	return (organisasi, kolega)
-
-def link_kolega(kolega):
-	link = '/%s/kolega/%s/' % (kolega.organisasi.kode, kolega.kode)
-	return link
 
 @login_required
 def aktivitas(request, kode_organisasi, kode_kolega):
@@ -216,9 +224,7 @@ def aktivitas_selesai(request, kode_organisasi, kode_kolega, pk_aktivitas):
 
 @login_required
 def organisasi(request, kode_organisasi):
-	organisasi = ambil_organisasi(kode_organisasi)
-	pengingat = ambil_pengingat(organisasi, request.user)
-	form_pengingat = PengingatTambahForm()
+	(organisasi, pengingat, form_pengingat) = inisiasi_halaman(kode_organisasi, request)
 	if request.method == "POST":
 		form = KolegaTambahForm(request.POST)
 		if form.is_valid():
