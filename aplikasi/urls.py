@@ -36,3 +36,7 @@ urlpatterns += patterns('pengingat.views',
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/(?P<id_pengingat>[0-9]+)/$', 'pengingat_detail'),
     url(r'^(?P<kode_organisasi>[a-z0-9_-]+)/pengingat/(?P<id_pengingat>[0-9]+)/selesai/$', 'pengingat_selesai'),
 )
+
+urlpatterns += patterns('surel.views',
+    url(r'^sistem/kotak_surel/$', 'suara_masuk'),
+)

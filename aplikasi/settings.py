@@ -143,6 +143,7 @@ INSTALLED_APPS = (
 
     #aplikasi
     'pengingat',
+    'surel',
     'utama',
 
 )
