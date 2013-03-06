@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .libs import parse_emailyak
+from .models import Surel
 
 
 @csrf_exempt
