@@ -193,7 +193,7 @@ if 'DATABASE_URL' in os.environ:
     )
 
 if HOSTNAME == "tunjukjari.com":
-    DEBUG = False
+    DEBUG = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -206,7 +206,7 @@ if HOSTNAME == "tunjukjari.com":
 }
 
 # setting s3
-if not DEBUG:
+if HOSTNAME == "tunjukjari.com":
     INSTALLED_APPS += (
         'storages',
     )
