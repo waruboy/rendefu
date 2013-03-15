@@ -12,7 +12,7 @@ AUTH_PROFILE_MODULE = 'utama.Profil'
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 
 PROJECT_DIR = os.path.join(os.path.dirname(__file__), '..')
 
@@ -204,6 +204,20 @@ if HOSTNAME == "tunjukjari.com":
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+# setting s3
+if not DEBUG:
+    INSTALLED_APPS += (
+        'storages',
+    )
+    AWS_STORAGE_BUCKET_NAME = 'rendefu'
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_URL = S3_URL
+    AWS_ACCESS_KEY_ID = os.environ['EC2_S3_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['EC2_S3_SECRET']
+
+
 try:
 	from local_settings import *
 except ImportError:
