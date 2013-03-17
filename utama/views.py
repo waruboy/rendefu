@@ -308,6 +308,7 @@ def kolega_daftar(request, kode_organisasi):
 
 def kolega_tambah(request, kode_organisasi):
 	organisasi = ambil_organisasi(kode_organisasi)
+
 	if request.method == "POST":
 		form = KolegaTambahForm(request.POST)
 		if form.is_valid():
@@ -327,6 +328,9 @@ def kolega_tambah(request, kode_organisasi):
 @login_required
 def kolega_ubah(request, kode_organisasi, kode_kolega):
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+	form_pengingat = PengingatTambahForm()
+	user = request.user
+	pengingat = ambil_pengingat(organisasi, user)
 	if request.method == "POST":
 		form = KolegaUbahForm(request.POST, instance=kolega)
 		if form.is_valid():
@@ -338,7 +342,9 @@ def kolega_ubah(request, kode_organisasi, kode_kolega):
 	return render(request, 'kolega_ubah.jade', {
 		'kolega': kolega,
 		'form': form,
+		'form_pengingat': form_pengingat,
 		'organisasi': organisasi,
+		'pengingat': pengingat,
 		})
 
 @login_required

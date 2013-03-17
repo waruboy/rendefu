@@ -38,7 +38,7 @@ class KolegaUbah1Form(forms.Form):
 class KolegaUbahForm(forms.ModelForm):
 	class Meta:
 		model = Kolega
-		exclude = ['kode', 'ditambahkan', 'organisasi']
+		fields = ('nama', 'telepon', 'alamat', 'email', )
 	
 class KontakTambahForm(forms.ModelForm):
 	class Meta:
