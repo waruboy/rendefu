@@ -21,7 +21,17 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aplikasi.settings")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+# application = get_wsgi_application()
+
+# coba aplikasi
+import django.core.handlers.wsgi
+_application = django.core.handlers.wsgi.WSGIHandler()
+
+def application(environ, start_response):
+  os.environ['EC2_S3_ID'] = environ['EC2_S3_ID']
+  os.environ['EC2_S3_SECRET'] = environ['EC2_S3_SECRET']
+  return _application(environ, start_response)
+
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
