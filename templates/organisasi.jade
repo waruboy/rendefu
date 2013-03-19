@@ -13,6 +13,10 @@ ul.breadcrumb
 {% block body %} 
 
 h2 {{ organisasi.nama }}
+| Kotak surat: 
+em
+	{{ organisasi.kode }}@rendefu.mailgun.org
+hr
 
 
 h4 Kolega Baru
@@ -39,8 +43,7 @@ form.form-vertical(action="", method="post")
 	{{ kontak.waktu }} - {{ kontak.user.get_profile.nama }} :
 	br
 	{{ kontak.kontak }}
-	p
-	br
+	hr
 	{% endfor %}
 {% endblock %}
 
