@@ -20,16 +20,20 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aplikasi.settings")
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-from django.core.wsgi import get_wsgi_application
+
+## komentar 2 baris berikut
+# from django.core.wsgi import get_wsgi_application
 # application = get_wsgi_application()
 
-# coba aplikasi
+## definisikan aplikasi baru
 import django.core.handlers.wsgi
 _application = django.core.handlers.wsgi.WSGIHandler()
 
 def application(environ, start_response):
   os.environ['EC2_S3_ID'] = environ['EC2_S3_ID']
   os.environ['EC2_S3_SECRET'] = environ['EC2_S3_SECRET']
+  os.environ['RENDEFU_MAILGUN_USER'] = environ['RENDEFU_MAILGUN_USER']
+  os.environ['RENDEFU_MAILGUN_PASSWORD'] = environ['RENDEFU_MAILGUN_PASSWORD']
   return _application(environ, start_response)
 
 

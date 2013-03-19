@@ -183,6 +183,13 @@ AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
 )
 
+## setting Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = os.environ['RENDEFU_MAILGUN_USER']
+EMAIL_HOST_PASSWORD = os.environ['RENDEFU_MAILGUN_PASSWORD']
+EMAIL_PORT = 587
+
 ## setting heroku
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
