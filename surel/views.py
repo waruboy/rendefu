@@ -18,7 +18,7 @@ def suara_masuk(request):
 		surel_masuk = Surel.objects.create(
 			sender = sender,
 			recipient = recipient,
-			body_plain = email['body_plain'],
+			body_plain = body_plain,
 			)
 		return HttpResponse('OK')
 	return HttpResponse('Tempat nerima email')
