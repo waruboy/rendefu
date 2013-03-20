@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Surel
+from .libs import cek_pengirim
 
 
 @csrf_exempt
@@ -20,5 +21,6 @@ def suara_masuk(request):
 			recipient = recipient,
 			body_plain = body_plain,
 			)
-		return HttpResponse('OK')
+		status = cek_pengirim(sender)
+		return HttpResponse(status)
 	return HttpResponse('Tempat nerima email')

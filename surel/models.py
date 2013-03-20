@@ -7,3 +7,11 @@ class Surel(models.Model):
     diterima = models.DateTimeField(auto_now_add=True)
     def __unicode__(self):
         return str(self.diterima) + " " + self.sender
+
+class NotifikasiTunda(models.Model):
+	tujuan = models.EmailField()
+	judul = models.CharField(max_length=141)
+	isi =  models.TextField()
+	dibuat = models.DateTimeField(auto_now_add=True)
+	def __unicode__(self):
+		return self.tujuan + " " + self.judul
