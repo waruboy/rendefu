@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.utils import simplejson
 
-from .models import NotifikasiTunda
+from .models import NotifikasiTunda, NotifikasiDikirim
 
 def kirim_emailyak(judul, isi, tujuan):
 	asal = 'jangan_balas@rendefu.com'
@@ -49,4 +49,20 @@ def cek_pengirim(pengirim):
 			isi=notif,
 			)
 		return notif
+	return 'OK'
+
+def kirim_notifikasi():
+	notifikasi_set = NotifikasiTunda.objects.all()
+	for notifikasi in notifikasi_set:
+		tujuan = notifikasi.tujuan
+		judul = notifikasi.judul
+		isi = notifikasi.isi
+		status = kirim_mailgun(tujuan, judul, isi)
+		if status == 1:
+			NotifikasiDikirim.objects.create(
+				tujuan=tujuan,
+				judul=judul,
+				isi=isi,
+				)
+			notifikasi.delete()
 	return 'OK'

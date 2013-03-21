@@ -15,3 +15,12 @@ class NotifikasiTunda(models.Model):
 	dibuat = models.DateTimeField(auto_now_add=True)
 	def __unicode__(self):
 		return self.tujuan + " " + self.judul
+
+class NotifikasiDikirim(models.Model):
+	tujuan = models.EmailField()
+	judul = models.CharField(max_length=141)
+	isi =  models.TextField()
+	dikirim = models.DateTimeField(auto_now_add=True)
+	def __unicode__(self):
+		return self.tujuan + " " + self.judul
+
