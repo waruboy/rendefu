@@ -27,6 +27,8 @@ def suara_masuk(request):
 		user = cek_pengirim(sender)
 		if not user:
 			return HttpResponse('Pengirim tak dikenal')
-		kolega = cek_kolega(user, recipient, body_plain)
+		kolega_set = cek_kolega(user, to, body_plain)
+		if not kolega_set:
+			return HttpResponse('kolega tak dikenal')
 		return HttpResponse('OK')
 	return HttpResponse('Tempat nerima email')

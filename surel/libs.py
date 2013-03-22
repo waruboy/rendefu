@@ -8,6 +8,10 @@ from utama.models import Kolega
 
 from .models import NotifikasiTunda, NotifikasiDikirim
 
+def ambil_alamat(teks):
+	alamat = teks[teks.find("<")+1:teks.find(">")]
+	return alamat
+
 def kirim_emailyak(judul, isi, tujuan):
 	asal = 'jangan_balas@rendefu.com'
 	url = 'https://api.emailyak.com/v1/3l3dw99ee1lxfds/json/send/email/'
@@ -53,9 +57,9 @@ def cek_pengirim(pengirim):
 		return []
 	return user
 
-def cek_kolega(user, recipient, body_plain):
+def cek_kolega(user, to_address, body_plain):
 	organisasi = user.organisasi_set.all()[0]
-	kolega = Kolega.objects.filter(email=recipient)
+	kolega_set = Kolega.objects.filter(email=to_address)
 	if not kolega:
 		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (email_kolega, organisasi.nama)
 		NotifikasiTunda.objects.create(
@@ -64,7 +68,7 @@ def cek_kolega(user, recipient, body_plain):
 			isi=notif,
 			)
 		return []
-	return kolega
+	return kolega_set
 
 
 def kirim_notifikasi():
