@@ -59,7 +59,8 @@ def cek_pengirim(pengirim):
 
 def cek_kolega(user, to_address, body_plain):
 	organisasi = user.organisasi_set.all()[0]
-	kolega_set = Kolega.objects.filter(email=to_address)
+	email_pengirim = ambil_alamat(to_address)
+	kolega_set = organisasi.kolega_set.filter(email=email_pengirim)
 	if not kolega_set:
 		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (to_address, organisasi.nama)
 		NotifikasiTunda.objects.create(

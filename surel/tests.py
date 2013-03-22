@@ -51,7 +51,7 @@ class SimpleTest(TestCase):
 
 	def test_cek_kolega__berhasil(self):
 		user = User.objects.all()[0]
-		kolega_set = cek_kolega(user, "mister_uji@rendefu.com", "isi_surat")
+		kolega_set = cek_kolega(user, 'Mister Uji <mister_uji@rendefu.com>', "isi_surat")
 		nama_kolega = kolega_set[0].nama
 		self.assertEqual(nama_kolega, "Mister Uji")
 
@@ -67,4 +67,35 @@ class SimpleTest(TestCase):
 		self.assertEqual(catatan.user.username, "penguji@rendefu.com")
 
 
+class SuaraMasukTest(TestCase):
+
+	def setUp(self):
+		user = create_superuser('penguji@rendefu.com','passpenguji')
+		organisasi = Organisasi.objects.create(nama="Organisasi Uji")
+		kolega = Kolega.objects.create(
+			nama="Mister Uji", 
+			organisasi=organisasi,
+			email = "mister_uji@rendefu.com",)
+		status = Status.objects.create(user=user, organisasi=organisasi)
+
+	def test_get(self):
+		"""
+		Kalau get harusnya ada pesan aja
+		"""
+		response = self.client.get('/sistem/kotak_surel/')
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "Tempat nerima email")
+
+	def test_post(self):
+		"""
+		Kalau get harusnya ada pesan aja
+		"""
+		response = self.client.post('/sistem/kotak_surel/', {
+			'sender':'penguji@rendefu.com',
+			'recipient':'penerima@email.com',
+			'To':'Mister Uji <mister_uji@rendefu.com>',
+			'body-plain':'isi_email',
+			})
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "OK")
 
