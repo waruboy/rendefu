@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Surel
-from .libs import cek_pengirim
+from .libs import cek_kolega, cek_pengirim
 
 
 @csrf_exempt
@@ -13,6 +13,7 @@ def suara_masuk(request):
 		subject   = request.POST.get('subject', '')
 		body_plain = request.POST.get('body-plain', '')
 		body_without_quotes = request.POST.get('stripped-text', '')
+		to = request.POST.get('To','')
 		# attachments:
 		for key in request.FILES:
 			file = request.FILES[key]
@@ -20,7 +21,12 @@ def suara_masuk(request):
 			sender = sender,
 			recipient = recipient,
 			body_plain = body_plain,
+			subject =subject,
+			to = to,
 			)
-		status = cek_pengirim(sender)
-		return HttpResponse(status)
+		user = cek_pengirim(sender)
+		if not user:
+			return HttpResponse('Pengirim tak dikenal')
+		kolega = cek_kolega(user, recipient, body_plain)
+		return HttpResponse('OK')
 	return HttpResponse('Tempat nerima email')

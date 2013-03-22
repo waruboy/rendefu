@@ -4,6 +4,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.utils import simplejson
 
+from utama.models import Kolega
+
 from .models import NotifikasiTunda, NotifikasiDikirim
 
 def kirim_emailyak(judul, isi, tujuan):
@@ -48,8 +50,22 @@ def cek_pengirim(pengirim):
 			judul="Terjadi Kesalahan",
 			isi=notif,
 			)
-		return notif
-	return 'OK'
+		return []
+	return user
+
+def cek_kolega(user, recipient, body_plain):
+	organisasi = user.organisasi_set.all()[0]
+	kolega = Kolega.objects.filter(email=recipient)
+	if not kolega:
+		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (email_kolega, organisasi.nama)
+		NotifikasiTunda.objects.create(
+			tujuan=pengirim,
+			judul="Terjadi Kesalahan",
+			isi=notif,
+			)
+		return []
+	return kolega
+
 
 def kirim_notifikasi():
 	notifikasi_set = NotifikasiTunda.objects.all()
