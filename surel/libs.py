@@ -72,7 +72,7 @@ def cek_kolega(user, to_address, body_plain):
 	return kolega_set
 
 def tulis_catatan(user, kolega, judul_email, isi_email):
-	isi_catatan = "Email \n Judul: %s \n\n %isi_email"
+	isi_catatan = "Email \n Judul: %s \n\n %s" % (judul_email, isi_email)
 	catatan = PoinKontak.objects.create(
 		kontak = isi_catatan,
 		kolega = kolega,

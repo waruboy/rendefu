@@ -64,7 +64,9 @@ class SimpleTest(TestCase):
 		user = User.objects.all()[0]
 		kolega = Kolega.objects.all()[0]
 		catatan = tulis_catatan(user, kolega, "Judul Email", "Isi Email")
+		isi_catatan = "Email \n Judul: %s \n\n %s" % ("Judul Email", "Isi Email")
 		self.assertEqual(catatan.user.username, "penguji@rendefu.com")
+		self.assertEqual(catatan.kontak, isi_catatan)
 
 
 class SuaraMasukTest(TestCase):
