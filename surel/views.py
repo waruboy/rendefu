@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Surel
-from .libs import cek_kolega, cek_pengirim
+from .libs import cek_kolega, cek_pengirim, tulis_catatan
 
 
 @csrf_exempt
@@ -30,5 +30,7 @@ def suara_masuk(request):
 		kolega_set = cek_kolega(user, to, body_plain)
 		if not kolega_set:
 			return HttpResponse('kolega tak dikenal')
+		kolega = kolega_set[0]
+		catatan = tulis_catatan(user, kolega, subject, body_plain)
 		return HttpResponse('OK')
 	return HttpResponse('Tempat nerima email')

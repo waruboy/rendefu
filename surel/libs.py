@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.utils import simplejson
 
-from utama.models import Kolega
+from utama.models import Kolega, PoinKontak
 
 from .models import NotifikasiTunda, NotifikasiDikirim
 
@@ -46,8 +46,8 @@ def kirim_mailgun(tujuan, judul, isi):
 
 def cek_pengirim(pengirim):
 
-	user = User.objects.filter(email=pengirim)
-	if not user:
+	user_set = User.objects.filter(email=pengirim)
+	if not user_set:
 		notif = 'Alamat anda tidak terdaftar sebagai pengguna di rendefu.com'
 		NotifikasiTunda.objects.create(
 			tujuan=pengirim,
@@ -55,21 +55,29 @@ def cek_pengirim(pengirim):
 			isi=notif,
 			)
 		return []
-	return user
+	return user_set[0]
 
 def cek_kolega(user, to_address, body_plain):
 	organisasi = user.organisasi_set.all()[0]
 	kolega_set = Kolega.objects.filter(email=to_address)
-	if not kolega:
-		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (email_kolega, organisasi.nama)
+	if not kolega_set:
+		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (to_address, organisasi.nama)
 		NotifikasiTunda.objects.create(
-			tujuan=pengirim,
+			tujuan=user.email,
 			judul="Terjadi Kesalahan",
 			isi=notif,
 			)
 		return []
 	return kolega_set
 
+def tulis_catatan(user, kolega, judul_email, isi_email):
+	isi_catatan = "Email \n Judul: %s \n\n %isi_email"
+	catatan = PoinKontak.objects.create(
+		kontak = isi_catatan,
+		kolega = kolega,
+		user = user,
+		)
+	return catatan
 
 def kirim_notifikasi():
 	notifikasi_set = NotifikasiTunda.objects.all()
