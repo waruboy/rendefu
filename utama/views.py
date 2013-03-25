@@ -8,6 +8,8 @@ from emailusernames.utils import create_user
 
 from pengingat.forms import PengingatTambahForm
 from pengingat.libs import ambil_pengingat
+from surel.isi_email import naskah_bergabung
+from surel.libs import kirim_mailgun
 
 from .models import Aktivitas, Organisasi, Kolega, PoinKontak, Status
 from .forms import AktivitasTambahForm, AnggotaForm, DaftarForm, DepanForm
@@ -76,6 +78,7 @@ def anggota_tambah(request, kode_organisasi):
 			password = 'password'
 			user_baru = create_user(email, password)
 			nama = form.cleaned_data['nama']
+			nama = nama.title()
 			profil_baru = user_baru.get_profile()
 			profil_baru.nama = nama
 			profil_baru.save()
@@ -99,7 +102,9 @@ def daftar(request):
 			email = form.cleaned_data['email']
 			password = form.cleaned_data['password']
 			nama = form.cleaned_data['nama']
+			nama = nama.title()
 			nama_organisasi = form.cleaned_data['organisasi']
+			nama_organisasi = nama_organisasi.title()
 			if User.objects.filter(email=email):
 				return HttpResponse('Email sudah terdaftar')
 			user_baru = create_user(email, password)
@@ -109,12 +114,11 @@ def daftar(request):
 			organisasi_baru = Organisasi.objects.create(nama=nama_organisasi)
 			status_baru = Status.objects.create(user=user_baru, organisasi=organisasi_baru)
 			user = authenticate(email=email, password=password)
-			if user:
-				if user.is_active:
-					login(request, user)
-					return redirect('/'+user.organisasi_set.all()[0].kode)
-			else:
-				return HttpResponse('User/Pass Salah')
+			naskah = naskah_bergabung(nama, nama_organisasi)
+			notifikasi = kirim_mailgun(email, 'Selamat Menggunakan Rendefu', naskah)
+			if user.is_active:
+				login(request, user)
+				return redirect('/'+user.organisasi_set.all()[0].kode)
 			return HttpResponseRedirect('/'+pelanggan.get_profile().get_organisasi().kode)
 	else:
 		return HttpResponseRedirect('/')
@@ -230,7 +234,7 @@ def organisasi(request, kode_organisasi):
 		if form.is_valid():
 			nama = form.cleaned_data['nama']
 			kolega_baru = Kolega.objects.create(
-				nama = nama,
+				nama = nama.title(),
 				organisasi = organisasi, 
 				)
 			return redirect(request.path + "kolega/" +kolega_baru.kode)
@@ -314,7 +318,7 @@ def kolega_tambah(request, kode_organisasi):
 		if form.is_valid():
 			nama = form.cleaned_data['nama']
 			kolega_baru = Kolega.objects.create(
-				nama = nama, 
+				nama = nama.title(), 
 				organisasi = organisasi,
 				)
 			return HttpResponse(kolega_baru.nama)

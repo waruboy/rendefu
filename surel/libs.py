@@ -12,6 +12,23 @@ def ambil_alamat(teks):
 	alamat = teks[teks.find("<")+1:teks.find(">")]
 	return alamat
 
+def deteksi_terusan(teks):
+	alamat = ""
+	if "From:" in teks:
+		if "\n" in teks:
+			baris = teks[teks.find("From:")+5:teks.find("\n")]
+		else:
+			baris = teks[teks.find("From:")+5:]
+		alamat = ambil_alamat(baris)
+	elif "Dari:" in teks:
+		if "\n" in teks:
+			baris = teks[teks.find("From:")+5:teks.find("\n")]
+		else:
+			baris = teks[teks.find("From:")+5:]
+		alamat = ambil_alamat(baris)
+
+	return alamat
+
 def kirim_emailyak(judul, isi, tujuan):
 	asal = 'jangan_balas@rendefu.com'
 	url = 'https://api.emailyak.com/v1/3l3dw99ee1lxfds/json/send/email/'
@@ -59,7 +76,12 @@ def cek_pengirim(pengirim):
 
 def cek_kolega(user, to_address, body_plain):
 	organisasi = user.organisasi_set.all()[0]
-	email_pengirim = ambil_alamat(to_address)
+	
+	email_pengirim = deteksi_terusan(body_plain)
+	status = 'dari kolega'
+	if not email_pengirim:
+		email_pengirim = ambil_alamat(to_address)
+		status = 'untuk kolega'
 	kolega_set = organisasi.kolega_set.filter(email=email_pengirim)
 	if not kolega_set:
 		notif = 'Email %s tidak terdaftar sebagai kolega di %s' % (to_address, organisasi.nama)
@@ -69,10 +91,10 @@ def cek_kolega(user, to_address, body_plain):
 			isi=notif,
 			)
 		return []
-	return kolega_set
+	return (kolega_set, status)
 
-def tulis_catatan(user, kolega, judul_email, isi_email):
-	isi_catatan = "Email \n Judul: %s \n\n %s" % (judul_email, isi_email)
+def tulis_catatan(user, kolega, judul_email, isi_email, status='dari kolega'):
+	isi_catatan = "Email %s:\n%s \n\n%s" % (status,judul_email, isi_email)
 	catatan = PoinKontak.objects.create(
 		kontak = isi_catatan,
 		kolega = kolega,

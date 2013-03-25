@@ -42,7 +42,7 @@ form.form-vertical(action="", method="post")
 	br
 	{{ kontak.waktu }} - {{ kontak.user.get_profile.nama }} :
 	br
-	{{ kontak.kontak }}
+	{{ kontak.kontak|linebreaksbr }}
 	hr
 	{% endfor %}
 {% endblock %}
