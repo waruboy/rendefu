@@ -127,7 +127,7 @@ class SuaraMasukTest(TestCase):
 		kolega = Kolega.objects.create(
 			nama="Mister Uji", 
 			organisasi=organisasi,
-			email = "mister_uji@rendefu.com",)
+			email = "kolega_uji@rendefu.com",)
 		status = Status.objects.create(user=user, organisasi=organisasi)
 
 	def test_get(self):
@@ -138,31 +138,26 @@ class SuaraMasukTest(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "Tempat nerima email")
 
-	def test_post_cc(self):
-		"""
-		Kalau get harusnya ada pesan aja
-		"""
+	def test_post__untuk_kolega(self):
 		response = self.client.post('/sistem/kotak_surel/', {
 			'sender':'penguji@rendefu.com',
 			'recipient':'penerima@email.com',
-			'To':'Mister Uji <mister_uji@rendefu.com>',
+			'To':'Mister Uji <kolega_uji@rendefu.com>',
 			'body-plain':'isi_email',
 			})
 		self.assertEqual(response.status_code, 200)
-		self.assertContains(response, "dari kolega")
+		self.assertContains(response, "untuk kolega")
 
-	def test_post_terusan(self):
-		"""
-		Kalau get harusnya ada pesan aja
-		"""
+	def test_post__dari_kolega(self):
+		isi_email = "Dari: Kolega Uji <kolega_uji@rendefu.com>\nIsi Surat"
 		response = self.client.post('/sistem/kotak_surel/', {
 			'sender':'penguji@rendefu.com',
 			'recipient':'penerima@email.com',
-			'To':'Mister Uji <mister_uji@rendefu.com>',
-			'body-plain':'From: Mister Uji <mister_uji@rendefu.com>\n \nIsi_email',
+			'To':'Mister Uji <kolega_uji@rendefu.com>',
+			'body-plain':isi_email,
 			})
 		self.assertEqual(response.status_code, 200)
-		self.assertContains(response, "untuk kolega")
+		self.assertContains(response, "dari kolega")
 
 class NaskahTest(TestCase):
 

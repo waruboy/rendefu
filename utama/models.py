@@ -88,10 +88,12 @@ class Kolega(models.Model):
 	telepon = models.CharField(max_length=64, blank=True, null=True)
 	email = models.EmailField(blank=True, null=True)
 	alamat = models.TextField(blank=True, null=True)
+	keterangan = models.TextField(blank=True)
 	ditambahkan = models.DateField(auto_now_add=True)
 	organisasi = models.ForeignKey(Organisasi)
 	tanggal_lahir = models.DateField(blank="True", null="True")
 	dihapus = models.BooleanField(default=False)
+
 
 	class Meta:
 		verbose_name_plural = 'kolega'

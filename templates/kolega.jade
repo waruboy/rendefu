@@ -44,17 +44,20 @@ hr
 
 {% block kanan %}
 .well
-	h4 Data
+	h3 Data
+	h5 Telepon:
+	p {{ kolega.telepon|default:"<em>tidak tersedia</em>" }}
+	h5 Email:
+	p {{ kolega.email|default:"<em>tidak tersedia</em>" }}
+	h5 Alamat:
+	p {{ kolega.alamat|default:"<em>tidak tersedia</em>"|linebreaksbr }}
 
-	| Telepon:
-	br
-	p {{ kolega.telepon }}
-	| Email:
-	br
-	p {{ kolega.email }}
-	| Alamat:
-	br
-	p {{ kolega.alamat|linebreaksbr }}
+	a(href="ubah") 
+		i.icon-chevron-right
+		| Ubah data
+.well
+	h3 Keterangan:
+	p {{ kolega.keterangan|default:"<em>tidak tersedia</em>"|linebreaksbr|urlize }}
 
 	a(href="ubah") 
 		i.icon-chevron-right
@@ -63,7 +66,7 @@ hr
 	br
 
 .well
-	h4 Aktivitas
+	h3 Aktivitas
 
 	{% if not aktivitas_g %}
 	em	

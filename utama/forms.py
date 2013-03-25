@@ -30,15 +30,10 @@ class DepanForm(forms.Form):
 class KolegaTambahForm(forms.Form):
 	nama = forms.CharField()
 
-class KolegaUbah1Form(forms.Form):
-	nama = forms.CharField()
-	telepon = forms.CharField()
-	alamat = forms.CharField(widget=forms.Textarea)
-
 class KolegaUbahForm(forms.ModelForm):
 	class Meta:
 		model = Kolega
-		fields = ('nama', 'telepon', 'alamat', 'email', )
+		fields = ('nama', 'telepon', 'alamat', 'email', 'keterangan')
 	
 class KontakTambahForm(forms.ModelForm):
 	class Meta:
