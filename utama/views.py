@@ -377,3 +377,6 @@ def kontak_tambah(request, kode_organisasi, kode_kolega):
 		'kolega': kolega,
 		'form': form,
 		})
+
+def selengkapnya(request):
+	return render(request, 'selengkapnya.jade')

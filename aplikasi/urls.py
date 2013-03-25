@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('utama.views',
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^sistem/selengkapnya/$', 'selengkapnya'),
     url(r'^sistem/keluar/$', 'keluar'),
     url(r'^sistem/daftar/$', 'daftar'),
     url(r'^sistem/profil/$', 'anggota_profil'),

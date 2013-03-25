@@ -1,0 +1,43 @@
+doctype 5
+{% load bootstrap_toolkit %}
+
+html(lang="id")
+	head
+		title
+			{% block title %} Rendefu! {% endblock %}
+			
+
+		link(href= STATIC_URL +"css/bootstrap.css", rel="stylesheet")
+		link(href= STATIC_URL +"css/selengkapnya.css", rel="stylesheet")
+		{% block head_tambahan %} {% endblock %}
+	body
+	.navbar.navbar-inverse.navbar-fixed-top
+		.navbar-inner
+			.container-fluid
+				a.brand(href="/") Rendefu
+
+	.container-narrow.container-fluid
+		.jumbotron
+			h1 Manajemen kontak untuk usaha anda!
+			br
+			hr
+			p.lead Catatan interaksi anda dan kolega dalam satu halaman
+			| Semua kolega yang Anda tambahkan ke Rendefu mempunyai halaman tersendiri.
+			| Anda dan rekan dapat menambahkan catatan mengenai kolega Anda seperti: pertemuan,
+			| percakapan, ide, telepon, dan email. Informasi interaksi akan dapat dilihat oleh
+			| rekan seorganisasi Anda, mengefektifkan komunikasi dan meminimalisir kesalahpahaman.
+			img(src=STATIC_URL+"img/halaman_kolega.png")
+			hr
+			p.lead Arsipkan percakapan email Anda
+			| Anda dapat dengan mudah mencatatkan komunikasi email dengan kolega di Rendefu.
+			| Teruskan dan BCC email kolega ke Rendefu. Email Anda akan otomatis tercantum di halaman
+			| yang terdaftar.
+			br
+			br
+			img(src=STATIC_URL+"img/terusan_email.png")
+			| Langsung terdeteksi halaman kolega yang relevan
+			br
+			br
+			img(src=STATIC_URL+"img/hasil_terusan.png")
+
+		{% block script %} {% endblock %}
