@@ -26,15 +26,14 @@ em
 	p Catatan interaksi {{ organisasi.nama }} dengan {{ kolega.nama }} akan muncul di sini.
 {% endif %}
 
-{% for k in kontak %}
-
-{{ k.waktu }} - {{ k.user.get_profile.nama }} :
-{% if k.aktivitas %}
+{% for c in catatan_bernomor_grup %}
+.kecil
+	em
+		| Catatan # {{ c.no_urut }}: {{ c.catatan.aktivitas.nama }}
+	br
+	{{ c.catatan.waktu }} - {{ c.catatan.user.get_profile.nama }} :
 br
-| Aktivitas: {{ k.aktivitas.nama }}
-{% endif %}
-br
-{{ k.kontak|linebreaksbr }}
+{{ c.catatan.kontak|linebreaksbr }}
 
 hr
 {% endfor %}

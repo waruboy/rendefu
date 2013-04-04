@@ -283,6 +283,10 @@ def kolega(request, kode_organisasi, kode_kolega):
 		form = KontakTambahForm()
 	kontak = kolega.poinkontak_set.all().order_by('-waktu')[0:9]
 	form_aktivitas = AktivitasTambahForm()
+	no_temp = range(len(kontak))
+	no_urut = [no_temp[i]+1 for i in no_temp]
+	no_urut.reverse()
+	catatan_bernomor_grup = [{'no_urut':no_urut[i], 'catatan':kontak[i]} for i in no_temp]
 	return render(request, 'kolega.jade', {
 		'kolega': kolega,
 		'kontak': kontak,
@@ -293,6 +297,7 @@ def kolega(request, kode_organisasi, kode_kolega):
 		'form_pengingat': form_pengingat,
 		'aktivitas_g': aktivitas_g,
 		'aktivitas_hidup_g': aktivitas_hidup_g,
+		'catatan_bernomor_grup': catatan_bernomor_grup,
 		})
 
 @login_required
