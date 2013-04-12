@@ -90,6 +90,7 @@ class Kolega(models.Model):
 	alamat = models.TextField(blank=True, null=True)
 	keterangan = models.TextField(blank=True)
 	ditambahkan = models.DateField(auto_now_add=True)
+	dilihat = models.DateTimeField(null=True,blank=True)
 	organisasi = models.ForeignKey(Organisasi)
 	tanggal_lahir = models.DateField(blank="True", null="True")
 	dihapus = models.BooleanField(default=False)

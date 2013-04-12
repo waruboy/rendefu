@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import timezone
+
 from emailusernames.utils import create_user
 
 from pengingat.forms import PengingatTambahForm
@@ -241,7 +243,7 @@ def organisasi(request, kode_organisasi):
 	else:
 		form = KolegaTambahForm()
 	kolega_g = organisasi.kolega_set.filter(dihapus=False)
-	kolega_baru = kolega_g.order_by('-ditambahkan')[0:9]
+	kolega_baru = kolega_g.order_by('-ditambahkan').order_by('-dilihat')[0:9]
 	hari_ini = datetime.date.today() +datetime.timedelta(1)
 
 	awal_minggu = hari_ini - datetime.timedelta(7)
@@ -264,6 +266,11 @@ def keluar(request):
 def kolega(request, kode_organisasi, kode_kolega):
 	
 	(organisasi, kolega) = ambil_kolega(kode_organisasi, kode_kolega)
+
+	# Perbarui waktu dilihat
+	kolega.dilihat =  timezone.now()
+	kolega.save()
+
 	aktivitas_g = Aktivitas.objects.filter(kolega=kolega)
 	aktivitas_hidup_g = aktivitas_g.filter(selesai=False)
 	form_pengingat = PengingatTambahForm()
