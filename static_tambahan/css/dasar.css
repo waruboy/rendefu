@@ -18,3 +18,7 @@ body {
 .kecil {
   font-size: 85%;
 }
+
+.kotak {
+  word-wrap: break-word;
+}

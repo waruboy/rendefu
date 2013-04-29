@@ -42,58 +42,59 @@ hr
 
 
 {% block kanan %}
-.well
-	h3 Data
-	h5 Telepon:
-	p {{ kolega.telepon|default:"<em>tidak tersedia</em>" }}
-	h5 Email:
-	p {{ kolega.email|default:"<em>tidak tersedia</em>" }}
-	h5 Alamat:
-	p {{ kolega.alamat|default:"<em>tidak tersedia</em>"|linebreaksbr }}
+.kotak 
+	.well
+		h3 Data
+		h5 Telepon:
+		p {{ kolega.telepon|default:"<em>tidak tersedia</em>" }}
+		h5 Email:
+		p {{ kolega.email|default:"<em>tidak tersedia</em>" }}
+		h5 Alamat:
+		p {{ kolega.alamat|default:"<em>tidak tersedia</em>"|linebreaksbr }}
 
-	a(href="ubah") 
-		i.icon-chevron-right
-		| Ubah data
-.well
-	h3 Keterangan:
-	p {{ kolega.keterangan|default:"<em>tidak tersedia</em>"|linebreaksbr|urlize }}
+		a(href="ubah") 
+			i.icon-chevron-right
+			| Ubah data
+	.well
+		h3 Keterangan:
+		p {{ kolega.keterangan|default:"<em>tidak tersedia</em>"|linebreaksbr|urlize }}
 
-	a(href="ubah") 
-		i.icon-chevron-right
-		| Ubah data
+		a(href="ubah") 
+			i.icon-chevron-right
+			| Ubah data
 
-	br
+		br
 
-.well
-	h3 Aktivitas
+	.well
+		h3 Aktivitas
 
-	{% if not aktivitas_g %}
-	em	
-		| Tidak ada aktivitas
+		{% if not aktivitas_g %}
+		em	
+			| Tidak ada aktivitas
 
-	{% else %}
-	em
-		| {{ aktivitas_g.count }} aktivitas, {{ aktivitas_hidup_g.count }} berlangsung
-	br
-	{% for aktivitas in aktivitas_hidup_g %}
-	a(href="aktivitas/" + str(aktivitas.pk) +"/") 
-		| {{ aktivitas.nama }}
-	{% endfor %}
-	br
-	a(href="aktivitas/") 
-		i.icon-chevron-right
-		| Daftar aktivitas
-	{% endif %}
-	
-	br
-	br
-	form.form(action="aktivitas/tambah/", method="post")
-		{% csrf_token %}
-		{{ form_aktivitas|as_bootstrap }}
-		button.btn.btn-primary(type="submit") Buat aktivitas
-.well
-	h4 Hapus data
-	form.form(action="hapus/", method="post")
-		{% csrf_token %}
-		button.btn.btn-warning(type="submit") Hapus kolega
+		{% else %}
+		em
+			| {{ aktivitas_g.count }} aktivitas, {{ aktivitas_hidup_g.count }} berlangsung
+		br
+		{% for aktivitas in aktivitas_hidup_g %}
+		a(href="aktivitas/" + str(aktivitas.pk) +"/") 
+			| {{ aktivitas.nama }}
+		{% endfor %}
+		br
+		a(href="aktivitas/") 
+			i.icon-chevron-right
+			| Daftar aktivitas
+		{% endif %}
+		
+		br
+		br
+		form.form(action="aktivitas/tambah/", method="post")
+			{% csrf_token %}
+			{{ form_aktivitas|as_bootstrap }}
+			button.btn.btn-primary(type="submit") Buat aktivitas
+	.well
+		h4 Hapus data
+		form.form(action="hapus/", method="post")
+			{% csrf_token %}
+			button.btn.btn-warning(type="submit") Hapus kolega
 {% endblock kanan %}
